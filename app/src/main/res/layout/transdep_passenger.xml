@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <!-- List View -->
+    <ListView
+        android:id="@+id/lv_passenger"
+        android:layout_width="fill_parent"
+        android:layout_height="451dp" />
+
+    <Button
+        android:id="@+id/returnIntent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/next"
+        android:onClick="Return"/>
+
+</LinearLayout>

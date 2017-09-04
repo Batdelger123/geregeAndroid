@@ -1,0 +1,64 @@
+<resources>
+    <!-- Basic to strings-->
+    <string name="app_name">Gerege</string>
+
+    <!-- basic to string -->
+    <string name="back">BACK</string>
+
+    <!-- menu used to string -->
+    <string name="news">news</string>
+    <string name="ticket">ticket</string>
+    <string name="home">home</string>
+    <string name="bus">bus</string>
+    <string name="more">more</string>
+    <string name="search">search</string>
+    <string name="mn">MN</string>
+    <string name="en">EN</string>
+    <string name="change">To change</string>
+    <string name="logout">Logout</string>
+    <string name="scan_info">Please read the QR code on your ID card</string>
+    <string name="enter_pin">Please change your password</string>
+    <string name="first_login">Please change your pin code for the first time</string>
+    <string name="change_pin">Change pin</string>
+    <string name="can_not_change_pin">Can not change pin</string>
+    <string name="not_internet">Not internet, Check your internet connection</string>
+
+    <!-- dialog used to strinf -->
+    <string name="dialog_success_sign">Амжилттай бүртгэгдлээ. Нууц үг таны утсанд мессежээр илгээх болно.</string>
+    <string name="dialog_error_sign">Амжилтгүй. Та дахин оролдоно уу.</string>
+    <string name="can_not_access">Can not access</string>
+    <string name="successfully_entered">Successfully entered</string>
+
+
+    <!-- Login registr used to strings-->
+    <string name="user_code">User code</string>
+    <string name="user_name">User name</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="login_qr">Login QR</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="phone">Phone number</string>
+    <string name="reminder">Save password</string>
+    <string name="enter_your_usercode">Enter your usercode</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="enter_your_phone">Enter your phone</string>
+
+    <!-- transport used to string            -->
+    <string name="oneway">ONE WAY</string>
+    <string name="returns">RETURN</string>
+    <string name="spinner_title">Select Category</string>
+    <string name="from_where">FROM</string>
+    <string name="to">TO</string>
+    <string name="departing">Departing</string>
+    <string name="date">Date</string>
+    <string name="select">Select</string>
+
+
+    <string name="calendar">Calendar</string>
+    <string name="passenger">Passenger</string>
+    <string name="next">Next</string>
+
+
+
+
+</resources>

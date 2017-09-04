@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tools:context=".transdep.InitTransdep">
+
+    <Switch
+        android:id="@+id/swReturn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="71dp"
+        android:checked="false"
+        android:text="@string/oneway"
+        android:textColor="@color/colorAccent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/swReturn"
+        android:layout_alignTop="@+id/swReturn"
+        android:layout_toRightOf="@+id/swReturn"
+        android:gravity="center"
+        android:text="@string/returns"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="39dp"
+        android:text="@string/from_where"
+        android:textColor="@color/colorAccent"
+        android:layout_marginLeft="62dp"
+        android:layout_marginStart="62dp"
+        android:layout_below="@+id/swReturn"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:id="@+id/etFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="19dp"
+        android:layout_marginStart="19dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/from_where"
+        android:layout_alignBaseline="@+id/textView2"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_toRightOf="@+id/textView2"
+        android:layout_toEndOf="@+id/textView2"
+        android:focusable="false" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:text="@string/to"
+        android:textColor="@color/colorAccent"
+        android:layout_below="@+id/etFrom"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_alignEnd="@+id/textView2" />
+
+    <EditText
+        android:id="@+id/etTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/to"
+        android:layout_alignBaseline="@+id/textView3"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_alignLeft="@+id/etFrom"
+        android:layout_alignStart="@+id/etFrom"
+        android:focusable="false"/>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/departing"
+        android:layout_below="@+id/etTo"
+        android:layout_alignRight="@+id/textView3"
+        android:layout_alignEnd="@+id/textView3"
+        android:layout_marginTop="23dp" />
+
+    <TextView
+        android:id="@+id/tvReturn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView4"
+        android:layout_alignEnd="@+id/etTo"
+        android:layout_alignRight="@+id/etTo"
+        android:text="@string/returns"
+        android:visibility="invisible" />
+
+    <EditText
+        android:id="@+id/etDeparting"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView4"
+        android:layout_marginLeft="21dp"
+        android:layout_marginStart="21dp"
+        android:drawableRight="@drawable/calendar"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="@string/date"
+        android:inputType="date"
+        android:textAlignment="center" />
+
+    <EditText
+        android:id="@+id/etReturnDate"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvReturn"
+        android:layout_marginLeft="22dp"
+        android:layout_marginStart="22dp"
+        android:layout_toEndOf="@+id/etDeparting"
+        android:layout_toRightOf="@+id/etDeparting"
+        android:drawableRight="@drawable/calendar"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="@string/date"
+        android:inputType="date"
+        android:textAlignment="center"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:text="@string/passenger"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignStart="@+id/textView3"
+        android:layout_below="@+id/etReturnDate"/>
+
+    <EditText
+        android:id="@+id/etPassenger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView5"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="@string/passenger"
+        android:focusable="false"
+        android:layout_alignRight="@+id/tvReturn"
+        android:layout_alignEnd="@+id/tvReturn"
+        android:layout_alignLeft="@+id/textView4"
+        android:layout_alignStart="@+id/textView4"/>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/etPassenger"
+        android:layout_alignLeft="@+id/etPassenger"
+        android:layout_alignRight="@+id/etPassenger"
+        android:layout_alignStart="@+id/etPassenger"
+        android:layout_below="@+id/etPassenger"
+        android:layout_marginTop="13dp"
+        android:background="@color/colorAccent"
+        android:text="@string/search"
+        android:textColor="@color/White" />
+
+
+</RelativeLayout>

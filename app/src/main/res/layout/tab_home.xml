@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <ImageButton
+        android:id="@+id/ibTransdep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/m_hothoorond"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:contentDescription=""
+        tools:ignore="ContentDescription"
+        android:onClick="Transdep"/>
+
+    <ImageButton
+        android:id="@+id/ibFly"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/ibTransdep"
+        android:background="@drawable/m_fly"
+        tools:ignore="ContentDescription"
+        android:onClick="Fly"
+        />
+
+    <ImageButton
+        android:id="@+id/ibTrain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ibTransdep"
+        android:layout_alignStart="@+id/ibTransdep"
+        android:layout_below="@+id/ibTransdep"
+        android:background="@drawable/m_tran"
+        tools:ignore="ContentDescription"
+        android:onClick="Train"/>
+
+    <ImageButton
+        android:id="@+id/ibTransport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/m_transport"
+        android:layout_below="@+id/ibFly"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        tools:ignore="ContentDescription"
+        android:onClick="Transport"/>
+
+    <ImageButton
+        android:id="@+id/ibUMoney"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ibTrain"
+        android:layout_alignStart="@+id/ibTrain"
+        android:layout_below="@+id/ibTrain"
+        android:background="@drawable/m_umoney"
+        tools:ignore="ContentDescription"
+        android:onClick="UMoney"/>
+
+    <ImageButton
+        android:id="@+id/ibTorguuli"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ibTransport"
+        android:layout_alignStart="@+id/ibTransport"
+        android:layout_below="@+id/ibTransport"
+        android:background="@drawable/m_torguuli"
+        tools:ignore="ContentDescription"
+        android:onClick="Torguuli"/>
+</RelativeLayout>
