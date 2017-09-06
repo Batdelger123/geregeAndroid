@@ -1,167 +1,167 @@
 {
-"version": "2017-08-17T19:21:10Z",
-"aimags": [
-  {
-"ID": 1,
-"NAME": "????????",
-"BVS": 1,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 2,
-"NAME": "????-?????",
-"BVS": 3,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 3,
-"NAME": "??????????",
-"BVS": 3,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 4,
-"NAME": "??????",
-"BVS": 1,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 5,
-"NAME": "????-?????",
-"BVS": 3,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 6,
-"NAME": "?????????",
-"BVS": 1,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 7,
-"NAME": "??????",
-"BVS": 2,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 8,
-"NAME": "????????",
-"BVS": 1,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 9,
-"NAME": "??????",
-"BVS": 3,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 10,
-"NAME": "??????????",
-"BVS": 1,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 11,
-"NAME": "????????",
-"BVS": 1,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 12,
-"NAME": "?????????",
-"BVS": 2,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 13,
-"NAME": "???????",
-"BVS": 1,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 14,
-"NAME": "???",
-"BVS": 1,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 15,
-"NAME": "???",
-"BVS": 3,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 16,
-"NAME": "????",
-"BVS": 3,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 17,
-"NAME": "???????",
-"BVS": 3,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 18,
-"NAME": "??????",
-"BVS": 2,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 19,
-"NAME": "??????-???",
-"BVS": 1,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 20,
-"NAME": "?????",
-"BVS": 1,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 21,
-"NAME": "??????????",
-"BVS": 1,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 22,
-"NAME": "???????????",
-"BVS": 1,
-"IS_COUNTRY": 0
-},
-  {
-"ID": 23,
-"NAME": "????????",
-"BVS": 1,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 24,
-"NAME": "??????????",
-"BVS": 1,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 25,
-"NAME": "???",
-"BVS": 4,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 26,
-"NAME": "?????",
-"BVS": 5,
-"IS_COUNTRY": 1
-},
-  {
-"ID": 30,
-"NAME": "??????",
-"BVS": 6,
-"IS_COUNTRY": 1
-}
-]
+  "aimags": [
+    {
+      "ID": 1,
+      "NAME": "Архангай",
+      "BVS": 1,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 2,
+      "NAME": "Баян-Өлгий",
+      "BVS": 3,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 3,
+      "NAME": "Баянхонгор",
+      "BVS": 3,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 4,
+      "NAME": "Булган",
+      "BVS": 1,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 5,
+      "NAME": "Говь-Алтай",
+      "BVS": 3,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 6,
+      "NAME": "Дорноговь",
+      "BVS": 1,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 7,
+      "NAME": "Дорнод",
+      "BVS": 2,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 8,
+      "NAME": "Дундговь",
+      "BVS": 1,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 9,
+      "NAME": "Завхан",
+      "BVS": 3,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 10,
+      "NAME": "Өвөрхангай",
+      "BVS": 1,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 11,
+      "NAME": "Өмнөговь",
+      "BVS": 1,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 12,
+      "NAME": "Сүхбаатар",
+      "BVS": 2,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 13,
+      "NAME": "Сэлэнгэ",
+      "BVS": 1,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 14,
+      "NAME": "Төв",
+      "BVS": 1,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 15,
+      "NAME": "Увс",
+      "BVS": 3,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 16,
+      "NAME": "Ховд",
+      "BVS": 3,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 17,
+      "NAME": "Хөвсгөл",
+      "BVS": 3,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 18,
+      "NAME": "Хэнтий",
+      "BVS": 2,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 19,
+      "NAME": "Дархан-Уул",
+      "BVS": 1,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 20,
+      "NAME": "Орхон",
+      "BVS": 1,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 21,
+      "NAME": "Говьсүмбэр",
+      "BVS": 1,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 22,
+      "NAME": "Улаанбаатар",
+      "BVS": 1,
+      "IS_COUNTRY": 0
+    },
+    {
+      "ID": 23,
+      "NAME": "Багануур",
+      "BVS": 1,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 24,
+      "NAME": "Багахангай",
+      "BVS": 1,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 25,
+      "NAME": "ОХУ",
+      "BVS": 4,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 26,
+      "NAME": "БНХАУ",
+      "BVS": 5,
+      "IS_COUNTRY": 1
+    },
+    {
+      "ID": 30,
+      "NAME": "БНКазУ",
+      "BVS": 6,
+      "IS_COUNTRY": 1
+    }
+  ],
+  "version": "2017-08-17T19:21:10Z"
 }

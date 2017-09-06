@@ -210,7 +210,7 @@ public class DatabaseAccess  {
     public List<Aimags> getAimags() {
 
         List<Aimags> aimagsList = new ArrayList<Aimags>();
-        Cursor cursor = database.rawQuery("SELECT * FROM "+AIMAGSTABLE, null);
+        Cursor cursor = database.rawQuery("SELECT * FROM "+AIMAGSTABLE + " WHERE " + ISCOUNTRY + "==1"+" AND "+BVS+"<4", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Aimags aimags = new Aimags();
@@ -341,4 +341,18 @@ public class DatabaseAccess  {
         database.delete(TARIFFTABLE, null, null);
     }
 
+    // start_stop  set
+    public List<Tariff> getTariffStartStops (Integer aimagId) {
+        List<Tariff> stopsList = new ArrayList<Tariff>();
+        Cursor cursor = database.rawQuery("SELECT * FROM "+TARIFFTABLE+ " GROUP BY start_stop_id HAVING " + AIMAG_ID + "= ? ", new String[]{ String.valueOf(aimagId)});
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Tariff tariff = new Tariff(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4), cursor.getInt(5), cursor.getString(6), cursor.getInt(7), cursor.getInt(8));
+            stopsList.add(tariff);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return stopsList;
+    }
 }

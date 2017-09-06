@@ -1,6 +1,7 @@
 package metatech.mn.gerege.transdep;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -22,8 +23,8 @@ import metatech.mn.gerege.database.DBAimags;
 
 public class DirectionView extends Activity {
 
-    TableLayout mTlayout;
-    TableRow tr;
+    private TableLayout mTlayout;
+    private TableRow tr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +50,22 @@ public class DirectionView extends Activity {
                 tr = new TableRow(this);
                 mTlayout.addView(tr);
             }
+            final String aimag = direction.get(i).getName();
+            final Integer aimagId = direction.get(i).getId();
+
             Button btn = new Button(this);
-            btn.setText(direction.get(i).getName());
-            btn.setId(direction.get(i).getId());
+            btn.setText(aimag);
+
             btn.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
                     // TODO Auto-generated method stub
                     System.out.println("v.getid is:- " + v.getId());
+                    Intent intent = new Intent(getApplicationContext(), DirectionStart.class);
+                    intent.putExtra("Aimag", aimag);
+                    intent.putExtra("AimagId", aimagId);
+                    startActivity(intent);
                 }
             });
             tr.addView(btn);

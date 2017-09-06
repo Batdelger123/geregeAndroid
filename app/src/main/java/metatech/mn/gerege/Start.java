@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -100,6 +101,14 @@ public class Start extends AppCompatActivity {
             }
         });
 
+        Bundle bundle = getIntent().getExtras();
+        try{
+            Toast.makeText(this, bundle.getString("Aimag") + "-" + bundle.getString("startStopName"), Toast.LENGTH_LONG).show();
+            tabLayout.getTabAt(5).select();
+        }
+        catch (Exception e) {
+            Toast.makeText(this, "Empty", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void setupTabIcons() {
