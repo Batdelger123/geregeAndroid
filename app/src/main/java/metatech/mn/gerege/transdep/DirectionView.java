@@ -131,4 +131,10 @@ public class DirectionView extends Activity {
             tr.addView(btn);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

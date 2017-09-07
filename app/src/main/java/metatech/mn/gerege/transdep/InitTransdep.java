@@ -3,11 +3,12 @@ package metatech.mn.gerege.transdep;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,10 +20,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
 import metatech.mn.gerege.R;
+import metatech.mn.gerege.Start;
 import metatech.mn.gerege.plugin.MyDatePicker;
 
 /**
@@ -30,7 +33,7 @@ import metatech.mn.gerege.plugin.MyDatePicker;
  */
 
 
-public class InitTransdep extends Fragment {
+public class InitTransdep extends Fragment implements View.OnClickListener{
 
     private final static int REQUEST_FROM_CODE = 100;
     private final static int REQUEST_TO_CODE = 200;
@@ -40,7 +43,8 @@ public class InitTransdep extends Fragment {
     private int start_stop_id;
     private int end_stop_id;
 
-
+    private Start parentActivity;
+    private View view;
     private EditText etFrom;
     private EditText etTo;
     private EditText etDeparting;
@@ -48,20 +52,37 @@ public class InitTransdep extends Fragment {
     private TextView tvReturn;
     private EditText etPassenger;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        parentActivity = (Start) context;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.transdep_front, container, false);
+        view = inflater.inflate(R.layout.transdep_front, container, false);
+
+        etFrom = (EditText) view.findViewById(R.id.etFrom);
+        etTo = (EditText) view.findViewById(R.id.etTo);
+        etDeparting = (EditText) view.findViewById(R.id.etDeparting);
+        etPassenger = (EditText) view.findViewById(R.id.etPassenger);
+
+        etFrom.setText( parentActivity.getStartStopName() );
+
+        etFrom.setOnClickListener(this);
+        etTo.setOnClickListener(this);
+        etDeparting.setOnClickListener(this);
+        etPassenger.setOnClickListener(this);
 
         tvReturn = (TextView) view.findViewById(R.id.tvReturn);
         etReturn = (EditText) view.findViewById(R.id.etReturnDate);
 
-        Switch onOffSwitch = (Switch)  view.findViewById(R.id.swReturn);
+        Switch onOffSwitch = (Switch) view.findViewById(R.id.swReturn);
         onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     etReturn.setVisibility(View.VISIBLE);
                     tvReturn.setVisibility(View.VISIBLE);
                 } else {
@@ -69,59 +90,37 @@ public class InitTransdep extends Fragment {
                     tvReturn.setVisibility(View.INVISIBLE);
                 }
             }
-
         });
-
-        etFrom=(EditText) view.findViewById(R.id.etFrom);
-        etFrom.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), DirectionView.class);
-                view.getContext().startActivity(intent);
-            }
-        });
-
-        etTo=(EditText) view.findViewById(R.id.etTo);
-        etTo.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), DirectionView.class);
-                view.getContext().startActivity(intent);
-            }
-        });
-
-        etDeparting = (EditText) view.findViewById(R.id.etDeparting);
-        etDeparting.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                DialogFragment dialogfragment = new MyDatePicker();
-
-                dialogfragment.show(getFragmentManager(), "departing");
-            }
-        });
-
-        etPassenger = (EditText) view.findViewById(R.id.etPassenger);
-        etPassenger.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(view.getContext(), Passenger.class);
-        try {
-            getActivity().startActivityForResult(intent, REQUEST_PASSENGER);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-            }
-        });
-
         return view;
     }
 
+    @Override
+    public void onClick(View v) {
+        Intent intent;
+
+        switch (v.getId()) {
+            case R.id.etFrom:
+                intent = new Intent(view.getContext(), DirectionView.class);
+                view.getContext().startActivity(intent);
+                break;
+            case R.id.etTo:
+                intent = new Intent(getActivity(), DirectionView.class);
+                startActivity(intent);
+                break;
+            case R.id.etDeparting:
+//                DialogFragment dialogfragment = new MyDatePicker();
+//                dialogfragment.show(getFragmentManager(), "departing");
+                break;
+            case R.id.etPassenger:
+                intent = new Intent(getActivity(), Passenger.class);
+                try {
+                    getActivity().startActivityForResult(intent, REQUEST_PASSENGER);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+    }
 
     // Call Back method  to get the Message form other Activity
     @Override
