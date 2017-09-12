@@ -86,7 +86,7 @@ public class DBUpdate extends Activity {
                 for(int i = 0; i<jsonMainNode.length();i++){
                     JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
                  //   new DBAimags().addAimags(DBUpdate.this, jsonChildNode.optInt("ID"), jsonChildNode.optString("NAME"), jsonChildNode.optInt("BVS"), jsonChildNode.getInt("IS_COUNTRY"));
-                    new DBTariff().addTariff(DBUpdate.this, jsonChildNode.optInt("ID"), jsonChildNode.optInt("DIRECTION_ID"), jsonChildNode.optString("DIRECTION_NAME"), jsonChildNode.optInt("START_STOP_ID"), jsonChildNode.optString("START_STOP_NAME"), jsonChildNode.optInt("END_STOP_ID"),jsonChildNode.optString("END_STOP_NAME"), jsonChildNode.optInt("AIMAG_ID"), jsonChildNode.optInt("IS_CENTER"));
+                    new DBTariff().addTariff(DBUpdate.this, jsonChildNode.optInt("ID"), jsonChildNode.optInt("DIRECTION_ID"), jsonChildNode.optString("DIRECTION_NAME"), jsonChildNode.optInt("START_STOP_ID"), jsonChildNode.optString("START_STOP_NAME"), jsonChildNode.optInt("END_STOP_ID"),jsonChildNode.optString("END_STOP_NAME"), jsonChildNode.optInt("AIMAG_ID"), jsonChildNode.optInt("END_STOP_AIMAG_ID"), jsonChildNode.optInt("IS_CENTER"));
                 }
             }
             catch(JSONException e){

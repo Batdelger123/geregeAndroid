@@ -45,6 +45,9 @@ public class DirectionView extends Activity {
 
         List<Aimags> direction= new DBAimags().getAimags(DirectionView.this);
 
+        Bundle bundle = getIntent().getExtras();
+        final String editText = bundle.getString("editText");
+
         for(int i=0; i< direction.size(); i++){
             if (i % 3 == 0) {
                 tr = new TableRow(this);
@@ -65,6 +68,7 @@ public class DirectionView extends Activity {
                     Intent intent = new Intent(getApplicationContext(), DirectionStart.class);
                     intent.putExtra("Aimag", aimag);
                     intent.putExtra("AimagId", aimagId);
+                    intent.putExtra("editText", editText);
                     startActivity(intent);
                 }
             });
@@ -110,7 +114,7 @@ public class DirectionView extends Activity {
         tvTitle.setTextColor(Color.WHITE);
         mTlayout.addView(tvTitle);
 
-        direction= new DBAimags().getForiegnCountry(DirectionView.this);
+        direction= new DBAimags().getForeignCountry(DirectionView.this);
 
         for(int i=0; i< direction.size(); i++){
             if (i % 3 == 0) {

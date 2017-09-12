@@ -8,6 +8,7 @@ public class Stops {
     private int    id;
     private String name;
     private int    iscenter;
+    private boolean isUB;
 
     public Stops (){
         id = 0;
@@ -19,6 +20,12 @@ public class Stops {
         this.id = id;
         this.name = name;
         this.iscenter = iscenter;
+    }
+
+    public Stops (int id, String name, boolean isUB){
+        this.id = id;
+        this.name = name;
+        this.isUB = isUB;
     }
 
     public int getId() {
@@ -43,5 +50,13 @@ public class Stops {
 
     public void setIscenter(int iscenter) {
         this.iscenter = iscenter;
+    }
+
+    public boolean isUB() {
+        return isUB;
+    }
+
+    public void setUB(boolean UB) {
+        isUB = UB;
     }
 }

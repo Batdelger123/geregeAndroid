@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 public interface DBTariffInterface {
-    boolean     addTariff(Context context, int id, int direction_id, String direction_name, int start_stop_id, String start_stop_name, int end_stop_id, String end_stop_name, int aimag_id, int iscenter);
+    boolean     addTariff(Context context, int id, int direction_id, String direction_name, int start_stop_id, String start_stop_name, int end_stop_id, String end_stop_name, int aimag_id, int end_aimag_id, int iscenter);
     boolean     deleteAllTariff(Context context);
     List<Tariff> getTariff(Context context);
 }

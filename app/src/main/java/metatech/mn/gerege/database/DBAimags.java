@@ -47,10 +47,26 @@ public class DBAimags implements DBAimagsInterface {
     }
 
     @Override
-    public List<Aimags> getForiegnCountry(Context context) {
+    public List<Aimags> getForeignCountry(Context context) {
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
         databaseAccess.open();
         List<Aimags> aimags = databaseAccess.getForiegnCountry();
+        databaseAccess.close();
+        return aimags;
+    }
+
+    public List<Aimags> getAimags(Context context, String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having) {
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
+        databaseAccess.open();
+        List<Aimags> aimags = databaseAccess.getAimags(table, columns, selection, selectionArgs, groupBy, having);
+        databaseAccess.close();
+        return aimags;
+    }
+
+    public List<Aimags> getEndAimags(Context context, String query, String args[]) {
+        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(context);
+        databaseAccess.open();
+        List<Aimags> aimags = databaseAccess.getEndAimags(query, args);
         databaseAccess.close();
         return aimags;
     }

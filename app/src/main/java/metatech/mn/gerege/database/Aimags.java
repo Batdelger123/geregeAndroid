@@ -5,7 +5,6 @@ package metatech.mn.gerege.database;
  */
 
 public class Aimags {
-
     //private variables
     private int    id;
     private String name;
@@ -13,6 +12,12 @@ public class Aimags {
     private int    iscountry;
 
     // Empty constructor
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
     public Aimags(){
         id = 0;
         name = "";

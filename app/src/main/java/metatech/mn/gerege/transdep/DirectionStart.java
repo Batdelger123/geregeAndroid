@@ -31,6 +31,7 @@ public class DirectionStart extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         final String aimag = bundle.getString("Aimag");
         final Integer aimagId = bundle.getInt("AimagId");
+        final String editText = bundle.getString("editText");
 
         tableLayout = (TableLayout) findViewById(R.id.tlDirectionStart);
 
@@ -58,8 +59,16 @@ public class DirectionStart extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), Start.class);
                     intent.putExtra("Aimag", aimag);
                     intent.putExtra("AimagId", aimagId);
-                    intent.putExtra("startStopName", startStopName);
-                    intent.putExtra("startStopId", startStopId);
+
+                    if (editText.equals("From")) {
+                        intent.putExtra("startStopName", startStopName);
+                        intent.putExtra("startStopId", startStopId);
+                        Toast.makeText(getApplicationContext(), "From", Toast.LENGTH_LONG).show();
+                    } else {
+                        intent.putExtra("endStopName", startStopName);
+                        intent.putExtra("endStopId", startStopId);
+                        Toast.makeText(getApplicationContext(), "To", Toast.LENGTH_LONG).show();
+                    }
 
                     startActivity(intent);
                 }

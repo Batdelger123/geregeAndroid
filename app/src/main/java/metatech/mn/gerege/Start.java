@@ -110,12 +110,17 @@ public class Start extends AppCompatActivity {
 
     }
 
-    public String getStartStopName() {
+    public String getEditTextString(String string) {
         try{
-            return bundleFromFragment.getString("startStopName");
+            String s = bundleFromFragment.getString(string);
+            if (s == null)
+                return "";
+
+            return s;
         } catch (Exception e) {
+            return "";
         }
-        return "";
+
     }
 
     private void setupTabIcons(TabLayout tabLayout) {

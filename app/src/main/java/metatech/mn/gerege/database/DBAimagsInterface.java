@@ -13,5 +13,5 @@ public interface DBAimagsInterface {
     boolean     deleteAllAimags(Context context);
     List<Aimags> getAimags(Context context);
     List<Aimags> getCity(Context context);
-    List<Aimags> getForiegnCountry(Context context);
+    List<Aimags> getForeignCountry(Context context);
 }
