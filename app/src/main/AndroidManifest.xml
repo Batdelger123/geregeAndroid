@@ -32,7 +32,8 @@
         <activity android:name=".transdep.DirectionView" />
         <activity android:name=".transdep.Passenger" />
         <activity android:name=".server.DBUpdate" />
-        <activity android:name=".transdep.DirectionStart"></activity>
+        <activity android:name=".transdep.DirectionStart" />
+        <activity android:name=".transdep.RecyclerView.TestActivity"></activity>
     </application>
 
 </manifest>

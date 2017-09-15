@@ -25,7 +25,7 @@ public class FragmentMore extends Fragment implements View.OnClickListener {
 
         View view = inflater.inflate(R.layout.tab_more, container, false);
 
-        Button btnLogout = (Button) view.findViewById(R.id.button2);
+        Button btnLogout = (Button) view.findViewById(R.id.btn_logout);
         btnLogout.setOnClickListener(this);
 
         return view;
@@ -35,7 +35,7 @@ public class FragmentMore extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.button2:
+            case R.id.btn_logout:
                 Intent iDBUpdate = new Intent(getActivity(), DBUpdate.class);
                 startActivity(iDBUpdate);// Activity
                 break;

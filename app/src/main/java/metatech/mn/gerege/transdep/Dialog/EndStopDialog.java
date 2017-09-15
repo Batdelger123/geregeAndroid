@@ -48,7 +48,7 @@ public class EndStopDialog extends DialogFragment implements View.OnClickListene
     private Stops startStop;
 
     public interface EndStopDialogListener {
-        public void resultFromEndStopDialog(int endStopId, String endStopName, boolean isUB);
+        public void resultFromEndStopDialog(Tariff tariff, boolean isUB);
     }
     @Override
     public void onAttach(Context context) {
@@ -99,10 +99,7 @@ public class EndStopDialog extends DialogFragment implements View.OnClickListene
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (!radioButton2.isChecked()) {
-//                    loadEndStops((arrayAdapter1.getItem(position)).getId());
-                    loadEndStops(startStop.getId(), (arrayAdapter1.getItem(position)).getId());
-                }
+                loadEndStops(startStop.getId(), (arrayAdapter1.getItem(position)).getId());
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -124,12 +121,14 @@ public class EndStopDialog extends DialogFragment implements View.OnClickListene
 
             case R.id.btn_ok:
                 try {
-                    if (radioButton2.isChecked()) {     // Ulaanbaatar
-                        initTransdep.resultFromEndStopDialog(arrayAdapter1.getItem(spinner1.getSelectedItemPosition()).getId(), arrayAdapter1.getItem(spinner1.getSelectedItemPosition()).getName(), true);
-                    } else {    // Busad
-                        initTransdep.resultFromEndStopDialog(arrayAdapter2.getItem(spinner2.getSelectedItemPosition()).getEnd_stop_id(), arrayAdapter2.getItem(spinner2.getSelectedItemPosition()).getEnd_stop_name(), false);
-                    }
-                } catch (Exception e) {}
+                    initTransdep.resultFromEndStopDialog(
+                            arrayAdapter2.getItem(spinner2.getSelectedItemPosition()),
+                            radioButton2.isChecked()                                        // true - Ulaanbaatar,  false - Busad
+                    );
+                } catch (Exception e) {
+                    initTransdep.resultFromEndStopDialog(null, false);
+                }
+
                 dismiss();
                 break;
 
@@ -166,6 +165,7 @@ public class EndStopDialog extends DialogFragment implements View.OnClickListene
 
     public void loadEndStopAimags(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having) {
         arrayAdapter1.clear();
+        arrayAdapter2.clear();
         List<Aimags> direction = new DBAimags().getAimags(getContext(), table, columns, selection, selectionArgs, groupBy, having);
         arrayAdapter1.clear();
         arrayAdapter1.addAll(direction);

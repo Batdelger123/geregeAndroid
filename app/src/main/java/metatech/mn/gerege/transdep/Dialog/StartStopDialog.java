@@ -136,7 +136,7 @@ public class StartStopDialog extends DialogFragment implements View.OnClickListe
                 spinner2.setVisibility(View.VISIBLE);
 
                 loadStartStopAimags(DatabaseAccess.AIMAGSTABLE, null, DatabaseAccess.ISCOUNTRY + " = 1 AND " + DatabaseAccess.BVS + " < 4", null, null, null);      // load Aimag
-             //   loadStartStops(arrayAdapter1.getItem(spinner1.getSelectedItemPosition()).getId());
+                loadStartStops(arrayAdapter1.getItem(spinner1.getSelectedItemPosition()).getId());
                 break;
 
             case R.id.radioButton2:
@@ -154,7 +154,7 @@ public class StartStopDialog extends DialogFragment implements View.OnClickListe
                 spinner2.setVisibility(View.VISIBLE);
 
                 loadStartStopAimags(DatabaseAccess.AIMAGSTABLE, null, DatabaseAccess.ISCOUNTRY + " = 1 AND " + DatabaseAccess.BVS + " >= 4", null, null, null);     // load Foreign Country
-            //    loadStartStops(arrayAdapter1.getItem(spinner1.getSelectedItemPosition()).getId());
+                loadStartStops(arrayAdapter1.getItem(spinner1.getSelectedItemPosition()).getId());
                 break;
         }
     }

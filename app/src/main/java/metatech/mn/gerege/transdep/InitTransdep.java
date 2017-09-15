@@ -1,28 +1,43 @@
 package metatech.mn.gerege.transdep;
 
+import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.StringTokenizer;
 
 import metatech.mn.gerege.database.Stops;
+import metatech.mn.gerege.database.Tariff;
 import metatech.mn.gerege.transdep.Dialog.EndStopDialog;
 import metatech.mn.gerege.transdep.Dialog.PassengerDialog;
+import metatech.mn.gerege.transdep.Dialog.SearchDialog;
 import metatech.mn.gerege.transdep.Dialog.StartStopDialog;
 import metatech.mn.gerege.R;
 import metatech.mn.gerege.Start;
-import metatech.mn.gerege.database.Aimags;
-import metatech.mn.gerege.database.Tariff;
 import metatech.mn.gerege.plugin.MyDatePicker;
+import metatech.mn.gerege.transdep.RecyclerView.CustomRequest;
+
+import static android.R.id.message;
 
 /**
  * Created by Coder-Erdenebayar on 8/9/2017.
@@ -54,6 +69,9 @@ public class InitTransdep extends Fragment implements StartStopDialog.StartStopD
     // Store results from dialog
     private Stops startStop;
     private Stops endStop;
+    private Tariff endTariff;
+    private int countAdult;
+    private int countChild;
 
     @Override
     public void onAttach(Context context) {
@@ -99,50 +117,51 @@ public class InitTransdep extends Fragment implements StartStopDialog.StartStopD
 
     @Override
     public void onClick(View v) {
-        Intent intent;
-        Bundle bundle = new Bundle();
 
         switch (v.getId()) {
             case R.id.etFrom:
-                FragmentManager fragmentManager = getFragmentManager();
                 StartStopDialog dialogFrom = new StartStopDialog(this);
-                dialogFrom.show(fragmentManager, "StartStopDialog");
+                dialogFrom.show(getFragmentManager(), "StartStopDialog");
 //                intent = new Intent(view.getContext(), DirectionView.class);
 //                intent.putExtra("editText", "From");
 //                view.getContext().startActivity(intent);
                 break;
             case R.id.etTo:
-                FragmentManager fragmentManager2 = getFragmentManager();
                 EndStopDialog dialogTo;
 
                 if (startStop != null) {
                     dialogTo = new EndStopDialog(this, startStop);
-                    dialogTo.show(fragmentManager2, "StartStopDialog");
+                    dialogTo.show(getFragmentManager(), "StartStopDialog");
                 }
 //                intent = new Intent(getActivity(), DirectionView.class);
 //                intent.putExtra("editText", "To");
 //                startActivity(intent);
                 break;
             case R.id.etDeparting:
-                MyDatePicker dialogfragment = new MyDatePicker();
-                dialogfragment.show(getFragmentManager(), "departing");
-                java.util.Calendar calendar = java.util.Calendar.getInstance();
-//                int year = calendar.get(java.util.Calendar.YEAR);
-//                int month = calendar.get(java.util.Calendar.MONTH);
-//                int day = calendar.get(java.util.Calendar.DAY_OF_MONTH);
-//                DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener(){
-//
-//                    @Override
-//                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//
-//                    }
-//                };
-//                new DatePickerDialog(getContext(), dateSetListener, year, month, day).show();
+//                MyDatePicker dialogfragment = new MyDatePicker();
+//                dialogfragment.show(getFragmentManager(), "departing");
+//                java.util.Calendar calendar = java.util.Calendar.getInstance();
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(java.util.Calendar.YEAR);
+                int month = calendar.get(java.util.Calendar.MONTH);
+                int day = calendar.get(java.util.Calendar.DAY_OF_MONTH);
+                DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener(){
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        month ++;
+                        String strMonth = String.valueOf(month);
+                        if (month < 10) {
+                            strMonth = "0" + month;
+                        }
+                        etDeparting.setText(String.valueOf(year + "-" + strMonth + "-" + dayOfMonth));
+                    }
+                };
+                new DatePickerDialog(getContext(), dateSetListener, year, month, day).show();
                 break;
             case R.id.etPassenger:
-                FragmentManager fragmentManager3 = getFragmentManager();
                 PassengerDialog passengerDialog = new PassengerDialog(this);
-                passengerDialog.show(fragmentManager3, "PassengerDialog");
+                passengerDialog.show(getFragmentManager(), "PassengerDialog");
 //                intent = new Intent(getActivity(), Passenger.class);
 //                try {
 //                    getActivity().startActivityForResult(intent, REQUEST_PASSENGER);
@@ -151,7 +170,10 @@ public class InitTransdep extends Fragment implements StartStopDialog.StartStopD
 //                }
                 break;
             case R.id.btnSearch:
-                // layout_weight
+                SearchDialog dialog = new SearchDialog(endTariff, etDeparting.getText().toString(), (countAdult + countChild));
+                dialog.show(getFragmentManager(), "SearchDialog");
+//                Intent intent = new Intent(getActivity(), TestActivity.class);
+//                startActivity(intent);
                 break;
         }
     }
@@ -167,13 +189,32 @@ public class InitTransdep extends Fragment implements StartStopDialog.StartStopD
     }
 
     @Override
-    public void resultFromEndStopDialog(int endStopId, String endStopName, boolean isUB) {
-        endStop = new Stops(endStopId, endStopName, isUB);
-        etTo.setText(endStopName);
+    public void resultFromEndStopDialog(Tariff  tariff, boolean isUB) {
+        this.endTariff = tariff;
+
+        if (tariff == null) {
+            etTo.setText("");
+            return;
+        }
+
+        if (isUB) {
+            etTo.setText(endTariff.getEnd_stop_name());
+//            List<Aimags> aimag = new DBAimags().getAimags(getContext(), DatabaseAccess.AIMAGSTABLE, null, " id = ?", new String[]{String.valueOf(endTariff.getEnd_aimag_id())}, null, null);
+//            if (!aimag.isEmpty()) {
+//                etTo.setText(aimag.get(0).getName());
+//            } else {
+//                etTo.setText(endTariff.getEnd_stop_name());
+//            }
+        }
+        else {
+            etTo.setText(endTariff.getEnd_stop_name());
+        }
     }
 
     @Override
     public void resultFromPassengerDialog(int adult, int child) {
+        this.countAdult = adult;
+        this.countChild = child;
         String string = "";
         if (adult != 0)
             string += adult + " Том хүн";
