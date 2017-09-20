@@ -1,17 +1,15 @@
 package metatech.mn.gerege.transdep.RecyclerView;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import metatech.mn.gerege.R;
+import metatech.mn.gerege.transdep.RecyclerView.data.Dispatcher;
 
 /**
  * Created by Enkhtur on 9/12/2017.
@@ -20,14 +18,14 @@ import metatech.mn.gerege.R;
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
 
     private LayoutInflater inflater;
-    private List<ListItem> dataSet;
+    private List<Dispatcher> dataSet;
     private CustomAdapterListener customAdapterListener;
 
     public interface CustomAdapterListener {
         public void listItemClicked(int position);
     }
 
-    public CustomAdapter(LayoutInflater inflater, CustomAdapterListener customAdapterListener, List<ListItem> dataSet) {
+    public CustomAdapter(LayoutInflater inflater, CustomAdapterListener customAdapterListener, List<Dispatcher> dataSet) {
         this.inflater = inflater;
         this.dataSet = dataSet;
         this.customAdapterListener = customAdapterListener;
@@ -42,12 +40,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
-        ListItem item = dataSet.get(position);
+        Dispatcher item = dataSet.get(position);
 
-        holder.tvDirection.setText(item.getFrom() + " - " + item.getTo());
-        holder.tvParking.setText(item.getLastStop());
-        holder.tvDate.setText(item.getDate());
-        holder.tvBus.setText(item.getCountSeat() + " хүний суудалтай " + item.getBusType());
+        holder.tvDirection.setText(item.getStartStopName() + " - " + item.getEndStopName());
+        holder.tvParking.setText(item.getEndStopName().substring(item.getEndStopName().indexOf(".") + 1));
+        holder.tvDate.setText(item.getLeaveDate().replace("T", ", ").replace("Z", ""));
+        holder.tvBus.setText(item.getSitCount() + " хүний суудалтай " + item.getCarTypeName());
     }
 
     @Override

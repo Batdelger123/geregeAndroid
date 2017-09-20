@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="metatech.mn.gerege" >
+    package="metatech.mn.gerege">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -24,7 +24,7 @@
         </activity>
         <activity
             android:name=".login.Login"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity android:name=".login.Sign_up" />
         <activity
             android:name=".login.QrScan"
@@ -33,7 +33,7 @@
         <activity android:name=".transdep.Passenger" />
         <activity android:name=".server.DBUpdate" />
         <activity android:name=".transdep.DirectionStart" />
-        <activity android:name=".transdep.RecyclerView.TestActivity"></activity>
+        <activity android:name=".transdep.Bus.Bus"></activity>
     </application>
 
 </manifest>

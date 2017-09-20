@@ -3,11 +3,10 @@ package metatech.mn.gerege.transdep;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,25 +18,22 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.StringTokenizer;
+import java.util.List;
 
 import metatech.mn.gerege.database.Stops;
 import metatech.mn.gerege.database.Tariff;
+import metatech.mn.gerege.transdep.Bus.Bus;
 import metatech.mn.gerege.transdep.Dialog.EndStopDialog;
 import metatech.mn.gerege.transdep.Dialog.PassengerDialog;
 import metatech.mn.gerege.transdep.Dialog.SearchDialog;
 import metatech.mn.gerege.transdep.Dialog.StartStopDialog;
 import metatech.mn.gerege.R;
 import metatech.mn.gerege.Start;
-import metatech.mn.gerege.plugin.MyDatePicker;
-import metatech.mn.gerege.transdep.RecyclerView.CustomRequest;
-
-import static android.R.id.message;
+import metatech.mn.gerege.transdep.RecyclerView.data.Dispatcher;
+import metatech.mn.gerege.transdep.RecyclerView.data.Data;
+import metatech.mn.gerege.transdep.RecyclerView.data.DispatcherRequest;
 
 /**
  * Created by Coder-Erdenebayar on 8/9/2017.
@@ -145,16 +141,22 @@ public class InitTransdep extends Fragment implements StartStopDialog.StartStopD
                 int year = calendar.get(java.util.Calendar.YEAR);
                 int month = calendar.get(java.util.Calendar.MONTH);
                 int day = calendar.get(java.util.Calendar.DAY_OF_MONTH);
-                DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener(){
+                DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
 
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        month ++;
+                        month++;
                         String strMonth = String.valueOf(month);
                         if (month < 10) {
                             strMonth = "0" + month;
                         }
-                        etDeparting.setText(String.valueOf(year + "-" + strMonth + "-" + dayOfMonth));
+
+                        String strDay = String.valueOf(dayOfMonth);
+                        if (dayOfMonth < 10) {
+                            strDay = "0" + dayOfMonth;
+                        }
+
+                        etDeparting.setText(String.valueOf(year + "-" + strMonth + "-" + strDay));
                     }
                 };
                 new DatePickerDialog(getContext(), dateSetListener, year, month, day).show();
@@ -170,10 +172,38 @@ public class InitTransdep extends Fragment implements StartStopDialog.StartStopD
 //                }
                 break;
             case R.id.btnSearch:
-                SearchDialog dialog = new SearchDialog(endTariff, etDeparting.getText().toString(), (countAdult + countChild));
-                dialog.show(getFragmentManager(), "SearchDialog");
-//                Intent intent = new Intent(getActivity(), TestActivity.class);
-//                startActivity(intent);
+
+                final ProgressDialog progressDialog = new ProgressDialog(getContext());
+                progressDialog.setMessage("Loading ...");
+                progressDialog.show();
+
+                Data data = new Data(
+                        getContext(),
+                        "http://metakioskdb.intelmax.mn/ords/pdb1/testuser1/reference/avail_dispatchers",
+                        "Bearer PudRXKOLozgXuh547qZotQ..",
+                        endTariff,
+                        etDeparting.getText().toString(),
+                        (countAdult + countChild)
+                );
+                data.requestAvailDispatchers(
+                        new DispatcherRequest.DispatcherRequestListener() {
+                            @Override
+                            public void resultFromDispatcherRequest(List<Dispatcher> dispatcherList) {
+                                progressDialog.dismiss();
+                                List<Dispatcher> list = new ArrayList<Dispatcher>();
+
+                                for (int i = 0; i < dispatcherList.size(); i++) {
+                                    Dispatcher dispatcher = dispatcherList.get(i);
+                                    if (dispatcher.getStartStopId() == endTariff.getStart_stop_id() && dispatcher.getEndStopId() == endTariff.getEnd_stop_id()) {
+                                        list.add(dispatcherList.get(i));
+                                    }
+                                }
+
+                                SearchDialog dialog = new SearchDialog(list);
+                                dialog.show(getFragmentManager(), "SearchDialog");
+                            }
+                        }
+                );
                 break;
         }
     }
@@ -189,7 +219,7 @@ public class InitTransdep extends Fragment implements StartStopDialog.StartStopD
     }
 
     @Override
-    public void resultFromEndStopDialog(Tariff  tariff, boolean isUB) {
+    public void resultFromEndStopDialog(Tariff tariff, boolean isUB) {
         this.endTariff = tariff;
 
         if (tariff == null) {
@@ -205,8 +235,7 @@ public class InitTransdep extends Fragment implements StartStopDialog.StartStopD
 //            } else {
 //                etTo.setText(endTariff.getEnd_stop_name());
 //            }
-        }
-        else {
+        } else {
             etTo.setText(endTariff.getEnd_stop_name());
         }
     }

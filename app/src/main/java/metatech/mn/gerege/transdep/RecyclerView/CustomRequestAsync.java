@@ -32,14 +32,14 @@ import java.util.logging.ErrorManager;
  * Created by Enkhtur on 9/14/2017.
  */
 
-public class CustomRequest extends AsyncTask<String, Void, String> {
+public class CustomRequestAsync extends AsyncTask<String, Void, String> {
 
     private String requestUrl;
     private String requestMethod;
     private HashMap<String, String> requstProperties;
     private String requestBody;
 
-    public CustomRequest(String url, String resuestMethod, HashMap requstProperties, String requestBody) {
+    public CustomRequestAsync(String url, String resuestMethod, HashMap requstProperties, String requestBody) {
         super();
         this.requestUrl = url;
         this.requestMethod = resuestMethod;

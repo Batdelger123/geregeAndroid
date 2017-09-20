@@ -8,4 +8,10 @@
     <color name="Black">#000000</color>
     <color name="start_stop_spinner">#BBDDFC</color>
 
+    <color name="seat_color_gray">#B2A7A1</color>
+    <color name="seat_color_green">#449047</color>
+    <color name="seat_color_yellow">#FCC027</color>
+    <color name="seat_color_orange">#E66230</color>
+
+
 </resources>
