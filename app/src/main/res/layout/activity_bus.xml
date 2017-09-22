@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="metatech.mn.gerege.transdep.Bus.Bus">
+    android:layout_height="wrap_content"
+    android:clickable="true">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:textSize="60dp"
+        android:gravity="center"
+        android:background="#00aaff"
+        android:text="Text"/>
+    <TextView
+        android:id="@+id/horizontal_line"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_below="@+id/textView"
+        android:background="#000000"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/horizontal_line">
 
-    <metatech.mn.gerege.transdep.Bus.Seat
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/root_bus"
+            android:background="@drawable/bus_test"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true">
 
-</android.support.constraint.ConstraintLayout>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

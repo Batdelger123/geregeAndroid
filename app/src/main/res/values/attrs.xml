@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="Seat">
-        <attr name="seat_size" format="dimension"></attr>
         <attr name="seat_margin" format="dimension"></attr>
         <attr name="seat_color" format="color"></attr>
     </declare-styleable>

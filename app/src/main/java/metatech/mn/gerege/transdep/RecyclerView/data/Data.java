@@ -21,7 +21,7 @@ import metatech.mn.gerege.transdep.RecyclerView.SingletonRequestQueue;
  * Created by Enkhtur on 9/13/2017.
  */
 
-public class Data implements Response.ErrorListener{
+public class Data {
 
     private Context context;
     private String url;
@@ -39,7 +39,7 @@ public class Data implements Response.ErrorListener{
         this.countTicket = countTicket;
     }
 
-    public void requestAvailDispatchers(DispatcherRequest.DispatcherRequestListener dispatcherRequestListener) {
+    public void requestAvailDispatchers(DispatcherRequest.DispatcherRequestListener dispatcherRequestListener, Response.ErrorListener errorListener) {
 
         HashMap<String, String> requestBody = new HashMap<>();
         requestBody.put("direction_id", String.valueOf(tariff.getDirection_id()));
@@ -59,14 +59,10 @@ public class Data implements Response.ErrorListener{
                 header,
                 new JSONObject(requestBody).toString(),
                 dispatcherRequestListener,
-                this
+                errorListener
         );
 
         SingletonRequestQueue.getInstance(context.getApplicationContext()).getRequestQueue().add(dispatcherRequest);
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        Log.d("Error", "Error");
-    }
 }

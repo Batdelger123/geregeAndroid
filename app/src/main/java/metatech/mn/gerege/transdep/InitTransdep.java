@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,9 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -172,7 +176,7 @@ public class InitTransdep extends Fragment implements StartStopDialog.StartStopD
 //                }
                 break;
             case R.id.btnSearch:
-
+//                startActivity(new Intent(getActivity(), Bus.class));
                 final ProgressDialog progressDialog = new ProgressDialog(getContext());
                 progressDialog.setMessage("Loading ...");
                 progressDialog.show();
@@ -180,7 +184,7 @@ public class InitTransdep extends Fragment implements StartStopDialog.StartStopD
                 Data data = new Data(
                         getContext(),
                         "http://metakioskdb.intelmax.mn/ords/pdb1/testuser1/reference/avail_dispatchers",
-                        "Bearer PudRXKOLozgXuh547qZotQ..",
+                        "Bearer 6ZQvg1ioGBBWPZx2V545FA..",
                         endTariff,
                         etDeparting.getText().toString(),
                         (countAdult + countChild)
@@ -201,6 +205,13 @@ public class InitTransdep extends Fragment implements StartStopDialog.StartStopD
 
                                 SearchDialog dialog = new SearchDialog(list);
                                 dialog.show(getFragmentManager(), "SearchDialog");
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                progressDialog.dismiss();
+                                Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
                             }
                         }
                 );
