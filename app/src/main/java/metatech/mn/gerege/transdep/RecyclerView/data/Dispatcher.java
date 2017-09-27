@@ -1,10 +1,12 @@
 package metatech.mn.gerege.transdep.RecyclerView.data;
 
+import java.io.Serializable;
+
 /**
  * Created by Enkhtur on 9/18/2017.
  */
 
-public class Dispatcher {
+public class Dispatcher implements Serializable{
 
     private int id;
     private int directionId;

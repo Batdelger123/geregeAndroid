@@ -1,0 +1,623 @@
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
+using Transdep.Properties;
+
+namespace Transdep
+{
+    public partial class Seats : Form
+    {
+        public const int BUS_LARGE = 1;
+        private const int BUS_MID = 2;
+        private const int BUS_SMALL = 3;
+        private const int BUS_CAB4 = 4;
+
+
+        private Parent parent;
+        public PictureBox pbSelectSeat;
+        public int iSelectSeatTAG;
+        private List<int> availSeats;
+
+        public Seats(Parent parent)
+        {
+            InitializeComponent();
+            this.parent = parent;
+            pbSelectSeat = new PictureBox();
+        }
+
+        private void Seats_Load(object sender, EventArgs e)
+        {
+            SelectId(-1);
+        }
+        
+        public void SelectId(int id)
+        {
+            iSelectSeatTAG = -100;
+            int iSeatCnt = 1;
+            int seatCount = 0;
+            availSeats = new List<int>(seatCount);
+            for (int i = 0; i < 56; i++) availSeats.Add(0);
+            // direction
+            try
+            {
+                if (parent.dispatcherList[id] != null)
+                {
+                    seatCount = parent.dispatcherList[id].SitCount;
+
+                    Invoke(new MethodInvoker(delegate ()
+                    {
+                        pbBusIcon.Image = ilBusIcon.Images[parent.dispatcherList[id].CarTypeId - 1];
+                        PlanID(parent.dispatcherList[id].CarTypeId);
+                        lAANname.Text = parent.dispatcherList[id].CompanyName;
+                        lDriverName.Text = parent.dispatcherList[id].DriverName;
+                        lCarNumber.Text = parent.dispatcherList[id].CarNumber;
+                        lType.Text = parent.dispatcherList[id].CarTypeName;
+                        lStops.Text = parent.fTicket.dispatcher.itemTo.Name;
+                        lDate.Text = parent.fTicket.dispatcher.GetDate();
+                        lDirection.Text = parent.dispatcherList[id].DirectionName;
+                        lMark.Text = parent.dispatcherList[id].ModelName;
+                        lDaatgal.Text = parent.tariffList[parent.fTicket.dispatcher.SelectTariffID].EndIComName;
+                    }));
+
+                    // service call function
+                    availSeats = new Service().AvailSeat(parent.Token, parent.MachineID, parent.dispatcherList[id].Id);
+                }
+            }
+            catch (Exception e)
+            {
+                Invoke(new MethodInvoker(delegate ()
+                {
+                    pbBusIcon.Image = ilBusIcon.Images[0];
+                    PlanID(0);
+                    lAANname.Text = "-";
+                    lCarNumber.Text = "-";
+                    lType.Text = "-";
+                    lDriverName.Text = "-";
+                    lDaatgal.Text = "-";
+                    lDate.Text = "-";
+                    lDirection.Text = "-";
+                    lStops.Text = "-";
+                    lMark.Text = "-";
+                }));
+                availSeats = new Service().AvailSeat(parent.Token, parent.MachineID, "-1");
+            }
+            
+            Invoke(new MethodInvoker(delegate ()
+            {
+                pbPlan.Visible = false;
+                pbPlan.Controls.Clear();
+            }));
+
+            for (int i = 0; i < seatCount; i++)
+            {
+                Invoke(new MethodInvoker(delegate ()
+                {
+                    PictureBox pbSeat = new PictureBox();
+                    pbSeat.Click += new EventHandler(pbSeatChange);
+                    
+                        if (availSeats[i + 1] == 1)
+                        {
+                            if (i < 2 && seatCount > 24)
+                            {
+                                pbSeat.Image = ilSeat.Images[1];
+                                pbSeat.Tag = 1;
+                            }
+                            else
+                            {
+                                if(iSelectSeatTAG == -100)
+                            {
+                                pbSeat.Image = ilSeat.Images[3];
+                                iSelectSeatTAG = 2;
+                                pbSeat.Tag = 3;
+                                pbSeat.Cursor = Cursors.Hand;
+                                pbSelectSeat = pbSeat;
+                            }
+                            else
+                            {
+                                pbSeat.Image = ilSeat.Images[2];
+                                pbSeat.Tag = 2;
+                            }
+
+                        }
+                            pbSeat.Cursor = Cursors.Hand;
+                        }
+                        else
+                        {
+                            pbSeat.Image = ilSeat.Images[0];
+                            pbSeat.Tag = 0;
+                            pbSeat.Cursor = Cursors.No;
+                        }
+
+                        pbSeat.SizeMode = PictureBoxSizeMode.StretchImage;
+                        pbSeat.Name = "" + (i + 1);
+                        iSeatCnt = SeatValue(pbSeat, seatCount, i + 1, iSeatCnt);
+                        pbPlan.Controls.Add(pbSeat);
+                        pbSeat.Paint += new PaintEventHandler(pbSeat_Paint);
+                        pbSeat.Show();
+                }));
+            }
+
+            Invoke(new MethodInvoker(delegate ()
+            {
+                pbPlan.Visible = true;
+            }));
+
+            //ticket info call
+            try
+            {
+                 parent.fTicket.ticketInfo.ChangeSeatInfo("1");
+            }
+            catch (Exception e)
+            {
+            }
+        }
+
+        private void pbSeat_Paint(object sender, PaintEventArgs e)
+        {
+            PictureBox pb = (PictureBox)sender;
+            TextRenderer.DrawText(e.Graphics,
+                                  pb.Name,
+                                  pb.Font,
+                                  new Point(pb.Width / 4, pb.Height / 4),
+                                  Color.White);
+        }
+
+
+        private void pbSeatChange(object sender, EventArgs e)
+        {
+            PictureBox pbSeat = (PictureBox)sender;
+
+            if (Convert.ToInt32(pbSeat.Tag) == 3)
+            {
+                pbSelectSeat.Image = ilSeat.Images[iSelectSeatTAG];
+                pbSelectSeat.Tag = iSelectSeatTAG;
+                pbSelectSeat.Cursor = Cursors.Hand;
+                pbSelectSeat = null;
+                iSelectSeatTAG = -1;
+            }
+            else if (Convert.ToInt32(pbSeat.Tag) == 0)
+            {
+
+            }
+            else
+            {
+                if (iSelectSeatTAG > 0)
+                {
+                    pbSelectSeat.Image = ilSeat.Images[iSelectSeatTAG];
+                    pbSelectSeat.Tag = iSelectSeatTAG;
+                }
+                iSelectSeatTAG = Convert.ToInt32(pbSeat.Tag);
+                pbSelectSeat = pbSeat;
+                pbSeat.Image = ilSeat.Images[3];
+                pbSeat.Tag = 3;
+            }
+        }
+
+        public void AvailSeat(String id, int seat)
+        {
+            List<int> availSeats = new Service().AvailSeat(parent.Token, parent.MachineID, id);
+
+
+            int i = availSeats[6];
+            i++;
+        }
+
+        public void PlanID(int id)
+        {
+            switch (id)
+            {
+                case BUS_LARGE:
+                    {
+                        pbPlan.Image = Resources.plan_large;
+                        break;
+                    }
+                case BUS_MID:
+                    {
+                        pbPlan.Image = Resources.plan_mid;
+                        break;
+                    }
+                case BUS_SMALL:
+                    {
+                        pbPlan.Image = Resources.plan_micro;
+                        break;
+                    }
+                case BUS_CAB4:
+                    {
+                        pbPlan.Image = Resources.plan_small;
+                        break;
+                    }
+            }
+        }
+
+        public int SeatValue(PictureBox bSeat, int seatcnt, int id, int cnt)
+        {
+            int x = 150, y = 110, iWidth = 35, iHeight = 35, rowCount = 5, xw = 10, xh = 0;
+
+            switch (seatcnt)
+            {
+                case 4: // Done
+                    {
+                        x = 220;
+                        y += 5;
+                        iWidth = 70;
+                        iHeight = 70;
+                        xw = 70;
+                        rowCount = 3;
+                        if (cnt == 1) y = -25;
+                        if (cnt == 2) cnt += 2;
+                        bSeat.Font = new System.Drawing.Font("Times New Roman", 24F, FontStyle.Bold);
+                    }
+                    break;
+                case 10: // Done
+                    {
+                        x = 170;
+                        y += 15;
+                        iWidth = 60;
+                        iHeight = 60;
+                        xw = 20;
+                        rowCount = 3;
+                        if (cnt == 1)
+                        {
+                            x = 150;
+                            y = 10;
+                        }
+                        if (cnt == 2)
+                            cnt += 5;
+                    }
+                    break;
+                case 11: // Done
+                    {
+                        x = 170;
+                        y += 15;
+                        iWidth = 60;
+                        iHeight = 60;
+                        xw = 20;
+                        rowCount = 3;
+                        if (cnt == 1)
+                        {
+                            iWidth = 50;
+                            iHeight = 50;
+                            x = 160;
+                            y -= 95;
+                        }
+                        if (cnt == 2)
+                        {
+                            iWidth = 50;
+                            iHeight = 50;
+                            x = 160;
+                            y += 15;
+                        }
+                        if (cnt == 3)
+                            cnt += 4;
+                    }
+                    break;
+                case 14: // Done
+                    {
+                        x = 210;
+                        y = 130;
+                        iWidth = 50;
+                        iHeight = 50;
+                        xw = 10;
+                        xh = 10;
+                        rowCount = 3;
+                        if (cnt == 1)
+                        {
+                            iWidth = 50;
+                            iHeight = 50;
+                            x = 160;
+                            y = 10;
+                        }
+                        if (cnt == 2)
+                        {
+                            iWidth = 50;
+                            iHeight = 50;
+                            x = 160;
+                            y = 130;
+                        }
+                        if (cnt == 3)
+                            cnt += 4;
+                    }
+                    break;
+                case 24: // Done
+                    {
+                        x = 110;
+                        y += 15;
+                        iHeight = 44;
+                        iWidth = 44;
+                        xw = 5;
+                        xh = 25;
+                        rowCount = 3;
+                        if (cnt == 1)
+                            cnt += 2;
+                        if (cnt == 4)
+                            cnt += 3;
+
+                        if (id == 5 || id == 6)
+                        {
+                            xw = 10;
+                        }
+                        if (cnt == 12)
+                            ++cnt;
+                        if (cnt > 12)
+                        {
+                            x += 30;
+                        }
+                    }
+                    break;
+                case 25: // Done
+                    {
+                        x = 130;
+                        y += 11;
+                        iHeight = 44;
+                        iWidth = 44;
+                        xw = 15;
+                        xh = 5;
+                        rowCount = 4;
+                        if (id == 1)
+                        {
+                            y -= 35;
+                            x = 100;
+                            cnt += 2;
+                        }
+
+                        if (id == 2)
+                            cnt++;
+
+                        if (id == 4)
+                            cnt += 2;
+
+                        if (id == 6)
+                            cnt += 2;
+
+                        if (cnt > 12)
+                        {
+                            x += 30;
+                        }
+                    }
+                    break;
+                case 26: //Done
+                    {
+                        x = 130;
+                        y += 11;
+                        iHeight = 44;
+                        iWidth = 44;
+                        xw = 15;
+                        xh = 5;
+                        rowCount = 4;
+                        if (id == 1)
+                        {
+                            y -= 35;
+                            x = 100;
+                            cnt += 2;
+                        }
+
+                        if (id == 2)
+                            cnt++;
+
+                        if (id == 4)
+                            cnt += 2;
+
+                        if (id == 7)
+                            cnt++;
+
+                        if (cnt > 12)
+                        {
+                            x += 30;
+                        }
+                    }
+                    break;
+                case 28: // Done
+                    {
+                        x = 120;
+                        y += 10;
+                        iHeight = 38;
+                        iWidth = 40;
+                        if (id == 1)
+                        {
+                            cnt += 4;
+                            x = 110;
+                        }
+
+                        if (id == 4)
+                            cnt += 3;
+                        if (id > 7)
+                        {
+                            x = 160;
+                            xw = 20;
+                        }
+                    }
+                    break;
+                case 29: // Done
+                    {
+                        x = 120;
+                        y += 10;
+                        iHeight = 38;
+                        iWidth = 40;
+                        if (id == 1)
+                        {
+                            cnt += 3;
+                            x = 110;
+                        }
+                        if (id == 2)
+                        {
+                            x = 110;
+                        }
+                        if (id == 5)
+                            cnt += 3;
+                        if (id > 8)
+                        {
+                            x = 160;
+                            xw = 20;
+                        }
+                    }
+                    break;
+                case 34: // Done
+                    {
+                        x = 90;
+                        y += 15;
+                        iHeight = 37;
+                        iWidth = 37;
+                        if (cnt == 1)
+                        {
+                            cnt += 4;
+                            x = 110;
+                            break;
+                        }
+                        if (cnt == 6)
+                            cnt += 5;
+
+                        if (id > 9)
+                            x = 160;
+                    }
+                    break;
+                case 36: // 
+                    {
+                        x = 110;
+                        y += 10;
+                        iWidth = 38;
+                        iHeight = 38;
+
+                        if (id == 1)
+                        {
+                            cnt += 2;
+                        }
+
+                        if (id > 2)
+                        {
+                            x = 175;
+                        }
+
+                        if (id > 6)
+                        {
+                            x = 240;
+                        }
+
+                        if (id > 23)
+                        {
+                            x = 190;
+                        }
+
+                        if ((id >= 19) && id <= 23)
+                        {
+                            x = 175;
+                            if (cnt % rowCount == 0)
+                                y += iHeight * (cnt % rowCount);
+                            else
+                                y += iHeight * (rowCount - (cnt % rowCount));
+                            ++cnt;
+
+                            bSeat.Location = new Point(x, y);
+                            bSeat.Size = new Size(iWidth, iHeight);
+                            return cnt;
+                        }
+                    }
+                    break;
+                case 35: // Done
+                    {
+                        x = 150;
+                        iHeight = 35;
+                        iWidth = 45;
+                        if (cnt == 38)
+                            cnt += 3;
+                    }
+                    break;
+                case 38: // Done
+                    {
+                        x = 100;
+                        iHeight = 35;
+                        iWidth = 45;
+                        if (id == 1)
+                        {
+                            y = 155;
+                            cnt += 4;
+                        }
+                    }
+                    break;
+                case 40: // Done
+                    {
+                        x = 160;
+                        iHeight = 35;
+                        iWidth = 38;
+                        if (cnt % rowCount == 3)
+                            ++cnt;
+                    }
+                    break;
+                case 41: // Done
+                    {
+                        x = 160;
+                        iHeight = 35;
+                        iWidth = 38;
+                        if ((cnt % rowCount == 3) && cnt < 45)
+                            ++cnt;
+                    }
+                    break;
+                case 43: // Done
+                    {
+                        x = 150;
+                        iHeight = 35;
+                        iWidth = 35;
+                        if (cnt == 3)
+                            cnt += 3;
+                    }
+                    break;
+                case 44: // Done
+                case 45: break; // Done
+                case 48: // Done
+                case 49: // Done
+                    {
+                        iHeight = 35;
+                        iWidth = 32;
+                    }
+                    break;
+                case 53: // Done
+                    {
+                        x = 150;
+                        xw = 5;
+                        iHeight = 35;
+                        iWidth = 33;
+                    }
+                    break;
+                case 54: // Done
+                    {
+                        x = 105;
+                        xw = 5;
+                        iHeight = 35;
+                        iWidth = 33;
+                        if (id == 1)
+                        {
+                            y = 160;
+                            cnt += 4;
+
+                        }
+                    }
+                    break;
+            }
+
+            if ((cnt % rowCount == 3) && rowCount == 5)
+            {
+                if (seatcnt == 40 || seatcnt == 44 || seatcnt == 48)
+                    cnt++;
+                else
+                    if ((seatcnt - 5) > id)
+                    cnt++;
+            }
+
+            if (cnt % rowCount == 0)
+            {
+                x += (iWidth + xw) * (cnt / rowCount - 1);
+                y += (iHeight + xh) * (cnt % rowCount);
+            }
+            else
+            {
+                x += (iWidth + xw) * (cnt / rowCount);
+                y += (iHeight + xh) * (rowCount - (cnt % rowCount));
+            }
+
+            cnt++;
+            bSeat.Location = new Point(x, y);
+            bSeat.Size = new Size(iWidth, iHeight);
+            return cnt;
+        }
+    }
+}

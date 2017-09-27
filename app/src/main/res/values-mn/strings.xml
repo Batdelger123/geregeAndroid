@@ -2,5 +2,5 @@
 <resources>
     <string name="app_name">Gerege</string>
     <string name="back">Буцах</string>
-    <string name="bus"></string>
+    <string name="bus">Автобус</string>
 </resources>

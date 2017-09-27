@@ -1,27 +1,56 @@
 package metatech.mn.gerege.transdep.Bus;
 
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import metatech.mn.gerege.R;
+import metatech.mn.gerege.transdep.RecyclerView.data.Dispatcher;
 
-public class Bus extends AppCompatActivity implements Seat.SeatListener{
+public class Bus extends AppCompatActivity implements Seat.SeatListener, View.OnClickListener {
 
-    private View view;
+    public static int BUS_BIG = 1;
+    public static int BUS_MEDIUM = 2;
+    public static int BUS_SMALL = 3;
+    public static String BUS_AVAIL_SEATS = "availSeats";
+    public static String BUS_DISPATCHER = "dispatcher";
+    public static String BUS_PASSENGER = "noOfPassenger";
+
     private RelativeLayout mRelativeLayout;
+
+    private int busType;
+    private int seats[][];
+    private List<Integer> availSeats;
+    private List<Integer> selectedSeats;
+    private int noOfPassenger;
+    private Dispatcher dispatcher;
+    private FloatingActionButton floatingActionButton;
 
     public Bus() {
     }
 
-    public Bus(int totalSeat, int[] availSeats) {
-
+    public Bus(int bustType, int seats[][], List<Integer> availSeats) {
+        this.busType = bustType;
+        this.seats = seats;
+        this.availSeats = availSeats;
     }
 
     @Override
@@ -29,71 +58,288 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bus);
 
-        Log.d("LayoutSize", "" + "Ssss");
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        dispatcher = (Dispatcher) bundle.getSerializable(Bus.BUS_DISPATCHER);
+        availSeats = bundle.getIntegerArrayList(Bus.BUS_AVAIL_SEATS);
+        noOfPassenger = bundle.getInt(Bus.BUS_PASSENGER);
+        selectedSeats = new ArrayList<>();
 
         mRelativeLayout = (RelativeLayout) findViewById(R.id.root_bus);
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(this);
+        floatingActionButton.hide();
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // left : 74
-                // top  : 332
-                int noSeatPerRow = 5;
-                int noSeatPerCol = 11;
-                int totalSeat = 45;
+        if (dispatcher.getCarTypeId() == BUS_BIG) {
+            mRelativeLayout.setBackgroundResource(R.drawable.bus_big);
+        }
+        if (dispatcher.getCarTypeId() == BUS_MEDIUM) {
+            mRelativeLayout.setBackgroundResource(R.drawable.bus_medium);
+        }
+        if (dispatcher.getCarTypeId() == BUS_SMALL) {
+            mRelativeLayout.setBackgroundResource(R.drawable.bus_small);
+        }
 
-                int seatLeftMargin = (mRelativeLayout.getWidth() * 74) / 720;
-                int seatTopmargin = (mRelativeLayout.getHeight() * 332) / 1440;
-                int seatBottommargin = (mRelativeLayout.getHeight() * 30) / 1440;
+        final int array[][] = {
+                {1,  2,  -1, 3, 4},
+                {5,  6,  -1, 7,  8},
+                {9,  10, -1, 11, 12},
+                {13, 14, -1, 15, 16},
+                {17, 18, -1, 19, 20},
+                {21, 22, -1, 23, 24},
+                {25, 26, -1, 27, 28},
+                {29, 30, -1, 31, 32},
+                {33, 34, -1, 35, 36},
+                {37, 38, -1, 39, 40},
+                {41, 42, 43, 44, 45},
+        };
 
-                int seatWidth = (mRelativeLayout.getWidth() * 106) / 720;
-                int seatHeight =  (mRelativeLayout.getHeight() * 80) / 1440;
-
-                int widthBetweenSeat = (mRelativeLayout.getWidth() - seatLeftMargin * 2 - (seatWidth * noSeatPerRow)) / (noSeatPerRow - 1);
-                int heightBetweenSeat = (mRelativeLayout.getHeight() - seatTopmargin - seatBottommargin - (seatHeight * noSeatPerCol)) / (noSeatPerCol - 1);
-                Log.d("widthBetweenSeat", "" + widthBetweenSeat);
-                Log.d("heightBetweenSeat", "" + heightBetweenSeat);
-
-                int counter = 0;
-
-                for (int i = 0; i < noSeatPerCol; i++) {
-                    for (int j = 0; j < noSeatPerRow; j++) {
-                        if (j == 2 && i != noSeatPerCol - 1)        // [0:3 - 10:3]
-                            continue;
-
-                        Seat seat = new Seat(getApplicationContext());
-                        seat.setSeatColor(ContextCompat.getColor(Bus.this, R.color.seat_color_green));
-                        seat.setText(String.valueOf(++  counter));
-
-                        seat.setListener(Bus.this);     // seatCicked(String);
-
-                        seat.setSizePostion(
-                                seatLeftMargin + j * (seatWidth + widthBetweenSeat),
-                                seatTopmargin + i * (seatHeight + heightBetweenSeat),
-                                seatWidth,
-                                seatHeight
-                        );
-
-                        //seat.setText(String.valueOf(++counter));
-
-                        mRelativeLayout.addView(seat);
+        final Handler handler = new Handler();
+        handler.postDelayed(
+            new Runnable() {
+                @Override
+                public void run() {
+                    if (mRelativeLayout.getWidth() == 0 && mRelativeLayout.getHeight() == 0) {
+                        handler.postDelayed(this, 10);
+                        return;
+                    }
+                    if (dispatcher.getCarTypeId() == BUS_BIG) {
+                        drawBigBusSeats(array);
+                    }
+                    if (dispatcher.getCarTypeId() == BUS_MEDIUM) {
+                        drawMediumBusSeats(array);
+                    }
+                    if (dispatcher.getCarTypeId() == BUS_SMALL) {
+                        drawSmallBusSeats(array);
                     }
                 }
-            }
-        }, 10);
+            },
+            10
+        );
+
     }
+
+
 
     @Override
     public void seatCicked(Seat seat) {
-        Toast.makeText(getApplicationContext(), "seat " + seat.getText(), Toast.LENGTH_SHORT).show();
-
-        if (seat.isSelected()) {
+        if (seat.isSelected()) {        // songoson suudlaa tsutslah
             seat.setSelected(false);
-        } else {
-            seat.setSelected(true);
+            selectedSeats.remove(new Integer(Integer.parseInt(seat.getText())));
+            floatingActionButton.hide();
+        } else {                        // suudal songoh
+            if (selectedSeats.size() < noOfPassenger) {
+                seat.setSelected(true);
+                selectedSeats.add(Integer.parseInt(seat.getText()));
+            }
+            if (selectedSeats.size() == noOfPassenger && selectedSeats.size() != 0) {
+                floatingActionButton.show();
+            }
         }
-
         seat.invalidate();
+    }
+
+    public void addSeat(String text, int color, int x, int y, int width, int height, Seat.SeatListener seatListener) {
+        Seat seat = new Seat(Bus.this);
+        seat.setSeatColor(color);
+        seat.setText(text);
+        seat.setSizePostion(x, y, width, height);
+        seat.setListener(seatListener);
+        mRelativeLayout.addView(seat);
+    }
+
+    public void drawSmallBusSeats(int array[][]) {
+        if (array == null)
+            return;
+//        layoutWidth: 764
+//        layoutHeight: 960
+//        seatWidth: 110
+//        seatHeight: 80
+
+//        marginTop : 470
+//        marginLeft : 80
+//        marginBottom : 34
+
+        int rw = 764;
+        int rh = 960;
+
+        addSeat(
+                "-2",
+                ContextCompat.getColor(Bus.this, R.color.seat_color_green),
+                mRelativeLayout.getWidth() * 420 / rw,
+                mRelativeLayout.getHeight() * 138 / rh,
+                110,
+                80,
+                null
+        );
+        addSeat(
+                "-1",
+                ContextCompat.getColor(Bus.this, R.color.seat_color_green),
+                mRelativeLayout.getWidth() * 570 / rw,
+                mRelativeLayout.getHeight() * 138 / rh,
+                110,
+                80,
+                null
+        );
+
+
+        int noSeatPerRow = array[0].length;
+        int noSeatPerCol = array.length;
+
+        int seatLeftMargin = (mRelativeLayout.getWidth() * 80 / rw);
+        int seatTopmargin = (mRelativeLayout.getHeight() * 470) / rh;
+        int seatBottommargin = (mRelativeLayout.getHeight() * 34) / rh;
+
+        int seatWidth = (mRelativeLayout.getWidth() * 110) / rw;
+        int seatHeight = (mRelativeLayout.getHeight() * 80) / rh;
+
+        int widthBetweenSeat = (mRelativeLayout.getWidth() - seatLeftMargin * 2 - (seatWidth * noSeatPerRow)) / (noSeatPerRow - 1);
+        int heightBetweenSeat = (mRelativeLayout.getHeight() - seatTopmargin - seatBottommargin - (seatHeight * noSeatPerCol)) / (noSeatPerCol - 1);
+
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                if (array[i][j] == -1)
+                    continue;
+
+                int color;
+                Seat.SeatListener seatListener = null;
+
+                if (availSeats.contains(array[i][j])) {
+                    color = ContextCompat.getColor(Bus.this, R.color.seat_color_green);
+                    seatListener = Bus.this;
+                } else {
+                    color = ContextCompat.getColor(Bus.this, R.color.seat_color_gray);
+                }
+
+                addSeat(
+                        String.valueOf(array[i][j]),
+                        color,
+                        seatLeftMargin + j * (seatWidth + widthBetweenSeat),
+                        seatTopmargin + i * (seatHeight + heightBetweenSeat),
+                        seatWidth,
+                        seatHeight,
+                        seatListener
+                );
+            }
+        }
+    }
+
+    public void drawMediumBusSeats(int array[][]) {
+        if (array == null)
+            return;
+//        layoutWidth: 764
+//        layoutHeight: 1200
+//        seatWidth: 108
+//        seatHeight: 76
+
+//        marginTop : 468
+//        marginLeft : 80
+//        marginBottom : 50
+
+        int rw = 764;
+        int rh = 1200;
+
+        int noSeatPerRow = array[0].length;
+        int noSeatPerCol = array.length;
+
+        int seatLeftMargin = (mRelativeLayout.getWidth() * 80 / rw);
+        int seatTopmargin = (mRelativeLayout.getHeight() * 468) / rh;
+        int seatBottommargin = (mRelativeLayout.getHeight() * 50) / rh;
+
+        int seatWidth = (mRelativeLayout.getWidth() * 108) / rw;
+        int seatHeight = (mRelativeLayout.getHeight() * 76) / rh;
+
+        int widthBetweenSeat = (mRelativeLayout.getWidth() - seatLeftMargin * 2 - (seatWidth * noSeatPerRow)) / (noSeatPerRow - 1);
+        int heightBetweenSeat = (mRelativeLayout.getHeight() - seatTopmargin - seatBottommargin - (seatHeight * noSeatPerCol)) / (noSeatPerCol - 1);
+
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                if (array[i][j] == -1)
+                    continue;
+
+                int color;
+                Seat.SeatListener seatListener = null;
+
+                if (availSeats.contains(array[i][j])) {
+                    color = ContextCompat.getColor(Bus.this, R.color.seat_color_green);
+                    seatListener = Bus.this;
+                } else {
+                    color = ContextCompat.getColor(Bus.this, R.color.seat_color_gray);
+                }
+
+                addSeat(
+                        String.valueOf(array[i][j]),
+                        color,
+                        seatLeftMargin + j * (seatWidth + widthBetweenSeat),
+                        seatTopmargin + i * (seatHeight + heightBetweenSeat),
+                        seatWidth,
+                        seatHeight,
+                        seatListener
+                );
+            }
+        }
+    }
+
+    public void drawBigBusSeats(int array[][]) {
+        if (array == null)
+            return;
+//        layoutWidth: 764
+//        layoutHeight: 1440
+//        seatWidth: 106
+//        seatHeight: 80
+
+//        marginTop : 332
+//        marginLeft : 74
+//        marginBottom : 30
+        int rw = 764;
+        int rh = 1440;
+
+        int noSeatPerRow = array[0].length;
+        int noSeatPerCol = array.length;
+
+        int seatLeftMargin = (mRelativeLayout.getWidth() * 74) / rw;
+        int seatTopmargin = (mRelativeLayout.getHeight() * 332) / rh;
+        int seatBottommargin = (mRelativeLayout.getHeight() * 30) / rh;
+
+        int seatWidth = (mRelativeLayout.getWidth() * 106) / rw;
+        int seatHeight = (mRelativeLayout.getHeight() * 80) / rh;
+
+        int widthBetweenSeat = (mRelativeLayout.getWidth() - seatLeftMargin * 2 - (seatWidth * noSeatPerRow)) / (noSeatPerRow - 1);
+        int heightBetweenSeat = (mRelativeLayout.getHeight() - seatTopmargin - seatBottommargin - (seatHeight * noSeatPerCol)) / (noSeatPerCol - 1);
+
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                if (array[i][j] == -1)
+                    continue;
+
+                int color;
+                Seat.SeatListener seatListener = null;
+
+                if (availSeats.contains(array[i][j])) {
+                    color = ContextCompat.getColor(Bus.this, R.color.seat_color_green);
+                    seatListener = Bus.this;
+                } else {
+                    color = ContextCompat.getColor(Bus.this, R.color.seat_color_gray);
+                }
+
+                addSeat(
+                        String.valueOf(array[i][j]),
+                        color,
+                        seatLeftMargin + j * (seatWidth + widthBetweenSeat),
+                        seatTopmargin + i * (seatHeight + heightBetweenSeat),
+                        seatWidth,
+                        seatHeight,
+                        seatListener
+                );
+            }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (floatingActionButton == v) {
+            Toast.makeText(Bus.this, "Clicked" + "", Toast.LENGTH_SHORT).show();
+        }
     }
 }

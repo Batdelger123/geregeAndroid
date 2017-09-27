@@ -64,6 +64,7 @@ public class Seat extends View {
             seatListener.seatCicked(Seat.this);
             return true;
         }
+
     }
     //__________________Gesture_____________________________
 
@@ -101,6 +102,7 @@ public class Seat extends View {
         this.mSeatSelectedColor = ContextCompat.getColor(context, R.color.seat_color_orange);
         this.mSeatColor = ContextCompat.getColor(getContext(), R.color.seat_color_gray);
         this.isSelected = false;
+        this.mText = "";
 
         this.gestureDetector = new GestureDetector(getContext(), new EventListener());
 
@@ -186,7 +188,7 @@ public class Seat extends View {
         } else {
             mPaint.setColor(mSeatColor);
         }
-
+        mPaint.setShadowLayer(5, 5, 5, mPaint.getColor());
         canvas.drawRoundRect(mBigRect, mBigRectBorderRadius, mBigRectBorderRadius, mPaint);
         canvas.drawRoundRect(mSmallRectBorder, mBorderRectR, mBorderRectR, mBorderPaint);
         canvas.drawRoundRect(mSmallRect, mSmallRectBorderRadius, mSmallRectBorderRadius, mPaint);

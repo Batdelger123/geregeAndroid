@@ -56,7 +56,7 @@ public class DispatcherRequest extends Request<List<Dispatcher>> {
             for(int i = 0; i<jsonDispatcherArray.length();i++){
                 JSONObject jsonDispatcher = jsonDispatcherArray.getJSONObject(i);
               //  if (jsonDispatcher.optInt("DIRECTION_START_STOP_ID") == tariff.getStart_stop_id() && jsonDispatcher.optInt("DIRECTION_END_STOP_ID") == tariff.getEnd_stop_id()) {
-                if (true) {
+                if (jsonDispatcher.optInt("CAR_TYPE_ID") != 4) {
                     dispatchers.add(new Dispatcher(
                             jsonDispatcher.optInt("ID"),
                             jsonDispatcher.optInt("DIRECTION_ID"),

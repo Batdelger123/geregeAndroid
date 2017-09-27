@@ -1,5 +1,6 @@
 package metatech.mn.gerege.transdep;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -7,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,12 +21,21 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import metatech.mn.gerege.database.Stops;
 import metatech.mn.gerege.database.Tariff;
@@ -35,6 +46,7 @@ import metatech.mn.gerege.transdep.Dialog.SearchDialog;
 import metatech.mn.gerege.transdep.Dialog.StartStopDialog;
 import metatech.mn.gerege.R;
 import metatech.mn.gerege.Start;
+import metatech.mn.gerege.transdep.RecyclerView.SingletonRequestQueue;
 import metatech.mn.gerege.transdep.RecyclerView.data.Dispatcher;
 import metatech.mn.gerege.transdep.RecyclerView.data.Data;
 import metatech.mn.gerege.transdep.RecyclerView.data.DispatcherRequest;
@@ -117,7 +129,6 @@ public class InitTransdep extends Fragment implements StartStopDialog.StartStopD
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.etFrom:
                 StartStopDialog dialogFrom = new StartStopDialog(this);
@@ -176,45 +187,63 @@ public class InitTransdep extends Fragment implements StartStopDialog.StartStopD
 //                }
                 break;
             case R.id.btnSearch:
-//                startActivity(new Intent(getActivity(), Bus.class));
-                final ProgressDialog progressDialog = new ProgressDialog(getContext());
-                progressDialog.setMessage("Loading ...");
-                progressDialog.show();
+                if (
+                        !etFrom.getText().toString().equals("") &&
+                        !etTo.getText().toString().equals("") &&
+                        !etDeparting.getText().toString().equals("") &&
+                        !etPassenger.getText().toString().equals("")
+                ) {
+                    final ProgressDialog progressDialog = new ProgressDialog(getContext());
+                    progressDialog.setMessage("Loading ...");
+                    progressDialog.show();
 
-                Data data = new Data(
-                        getContext(),
-                        "http://metakioskdb.intelmax.mn/ords/pdb1/testuser1/reference/avail_dispatchers",
-                        "Bearer 6ZQvg1ioGBBWPZx2V545FA..",
-                        endTariff,
-                        etDeparting.getText().toString(),
-                        (countAdult + countChild)
-                );
-                data.requestAvailDispatchers(
-                        new DispatcherRequest.DispatcherRequestListener() {
-                            @Override
-                            public void resultFromDispatcherRequest(List<Dispatcher> dispatcherList) {
-                                progressDialog.dismiss();
-                                List<Dispatcher> list = new ArrayList<Dispatcher>();
+                    Data data = new Data(
+                            getContext(),
+                            "http://metakioskdb.intelmax.mn/ords/pdb1/testuser1/reference/avail_dispatchers",
+                            "Bearer _ODSeP6l9soQsZPVMEUPVw..",
+                            endTariff,
+                            etDeparting.getText().toString(),
+                            (countAdult + countChild)
+                    );
+                    data.requestAvailDispatchers(
+                            new DispatcherRequest.DispatcherRequestListener() {
+                                @Override
+                                public void resultFromDispatcherRequest(List<Dispatcher> dispatcherList) {
+                                    progressDialog.dismiss();
+                                    List<Dispatcher> list = new ArrayList<Dispatcher>();
 
-                                for (int i = 0; i < dispatcherList.size(); i++) {
-                                    Dispatcher dispatcher = dispatcherList.get(i);
-                                    if (dispatcher.getStartStopId() == endTariff.getStart_stop_id() && dispatcher.getEndStopId() == endTariff.getEnd_stop_id()) {
-                                        list.add(dispatcherList.get(i));
+                                    for (int i = 0; i < dispatcherList.size(); i++) {
+                                        Dispatcher dispatcher = dispatcherList.get(i);
+                                        if (dispatcher.getStartStopId() == endTariff.getStart_stop_id() && dispatcher.getEndStopId() == endTariff.getEnd_stop_id()) {
+                                            list.add(dispatcherList.get(i));
+                                        }
+                                    }
+                                    if (list.size() == 0) {
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                        builder.setTitle(R.string.avail_dispatchers);
+                                        builder.setMessage("Хувьаар олдсонгүй");
+                                        builder.show();
+                                    } else {
+                                        SearchDialog dialog = new SearchDialog(list, (countAdult + countChild));
+                                        dialog.show(getFragmentManager(), "SearchDialog");
                                     }
                                 }
-
-                                SearchDialog dialog = new SearchDialog(list);
-                                dialog.show(getFragmentManager(), "SearchDialog");
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
+                                }
                             }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                progressDialog.dismiss();
-                                Toast.makeText(getContext(), "Error", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                );
+                    );
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Алдаа");
+                    builder.setMessage("Шаардлагатай талбаруудыг бөглөнө үү !");
+                    builder.setPositiveButton("Ok", null);
+                    builder.show();
+                }
                 break;
         }
     }

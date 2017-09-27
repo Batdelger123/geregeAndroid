@@ -63,6 +63,11 @@
     <string name="start_stop">Сум</string>
     <string name="start_stop_city">Хот</string>
     <string name="center">Аймгийн төв</string>
+    <string name="seat_text_green">Сонгох боломжтой</string>
+    <string name="seat_text_gray">Сонгох боломжгүй /захиалга хийгдсэн/</string>
+    <string name="seat_text_yellow">Хөгжлийн бэрхшээлтэй иргэдэд зориулагдсан суудал</string>
+    <string name="seat_text_orange">Таны соонгосон суудал</string>
+    <string name="avail_dispatchers">Боломжит хуваариуд</string>
 
 
 </resources>
