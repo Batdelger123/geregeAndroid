@@ -74,9 +74,6 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
             mRelativeLayout.setBackgroundResource(R.drawable.bus_small);
         }
 
-        //final int array[][] = SeatPosition.getPosition(countSeat);
-        final int array[][] = SeatPosition.getSeatsPosition(countSeat);
-
         final Handler handler = new Handler();
         handler.postDelayed(
             new Runnable() {
@@ -87,15 +84,16 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
                         return;
                     }
 
-                    if (dispatcher.getCarTypeId() == BUS_BIG) {
-                        drawBigBusSeats(array);
-                    }
-                    if (dispatcher.getCarTypeId() == BUS_MEDIUM) {
-                        drawMediumBusSeats(array);
-                    }
-                    if (dispatcher.getCarTypeId() == BUS_SMALL) {
-                        drawSmallBusSeats(array);
-                    }
+                    SeatPosition seatPosition = new SeatPosition(mRelativeLayout.getWidth(), mRelativeLayout.getHeight(), countSeat);
+
+                    drawBus(
+                            seatPosition.getSeatsPosition(),
+                            seatPosition.getSeatLeftMargin(),
+                            seatPosition.getSeatTopmargin(),
+                            seatPosition.getSeatBottommargin(),
+                            seatPosition.getSeatWidth(),
+                            seatPosition.getSeatHeight()
+                    );
                 }
             },
             10
@@ -129,9 +127,7 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
         seat.invalidate();
     }
 
-    public void drawSmallBusSeats(int array[][]) {
-        if (array == null)
-            return;
+    public void drawSmallBusSeats(SeatPosition seatPosition) {
 //        layoutWidth: 764
 //        layoutHeight: 960
 //        seatWidth: 110
@@ -141,22 +137,26 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
 //        marginLeft : 80
 //        marginBottom : 34
 
-        int rw = 764;
-        int rh = 960;
+//        float rw = 764;
+//        float rh = 960;
+//
+//        float ratioLeft = 80 / rw;
+//        float ratioTop = 470 / rh;
+//        float ratioBottom = 34 / rh;
+//        float ratioSeatWidth = 110 / rw;
+//        float ratioSeatHeight = 80 / rh;
 
         drawBus(
-                array,
-                (mRelativeLayout.getWidth() * 80) / rw,
-                (mRelativeLayout.getHeight() * 470) / rh,
-                (mRelativeLayout.getHeight() * 34) / rh,
-                (mRelativeLayout.getWidth() * 110) / rw,
-                (mRelativeLayout.getHeight() * 80) / rh
+                seatPosition.getSeatsPosition(),
+                seatPosition.getSeatLeftMargin(),
+                seatPosition.getSeatTopmargin(),
+                seatPosition.getSeatBottommargin(),
+                seatPosition.getSeatWidth(),
+                seatPosition.getSeatHeight()
         );
     }
 
-    public void drawMediumBusSeats(int array[][]) {
-        if (array == null)
-            return;
+    public void drawMediumBusSeats(SeatPosition seatPosition) {
 //        layoutWidth: 764
 //        layoutHeight: 1200
 //        seatWidth: 108
@@ -166,22 +166,26 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
 //        marginLeft : 80
 //        marginBottom : 50
 
-        int rw = 764;
-        int rh = 1200;
+//        float rw = 764;
+//        float rh = 1200;
+//
+//        float ratioLeft = 80 / rw;
+//        float ratioTop = 490 / rh;
+//        float ratioBottom = 50 / rh;
+//        float ratioSeatWidth = 108 / rw;
+//        float ratioSeatHeight = 76 / rh;
 
         drawBus(
-                array,
-                (mRelativeLayout.getWidth() * 80) / rw,
-                (mRelativeLayout.getHeight() * 322) / rh,
-                (mRelativeLayout.getHeight() * 50) / rh,
-                (mRelativeLayout.getWidth() * 108) / rw,
-                (mRelativeLayout.getHeight() * 76) / rh
+                seatPosition.getSeatsPosition(),
+                seatPosition.getSeatLeftMargin(),
+                seatPosition.getSeatTopmargin(),
+                seatPosition.getSeatBottommargin(),
+                seatPosition.getSeatWidth(),
+                seatPosition.getSeatHeight()
         );
     }
 
-    public void drawBigBusSeats(int array[][]) {
-        if (array == null)
-            return;
+    public void drawBigBusSeats(SeatPosition seatPosition) {
 //        layoutWidth: 764
 //        layoutHeight: 1440
 //        seatWidth: 106
@@ -192,17 +196,22 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
 //        marginLeft : 74
 //        marginBottom : 30
 
-        int rw = 764;
-        int rh = 1440;
+//        float rw = 764;
+//        float rh = 1440;
+//
+//        float ratioLeft = 74 / rw;
+//        float ratioTop = 332 / rh;
+//        float ratioBottom = 30 / rh;
+//        float ratioSeatWidth = 106 / rw;
+//        float ratioSeatHeight = 80 / rh;
 
         drawBus(
-            array,
-            (mRelativeLayout.getWidth() * 74) / rw,
-            (mRelativeLayout.getHeight() * 332) / rh,
-            (mRelativeLayout.getHeight() * 30) / rh,
-            (mRelativeLayout.getWidth() * 106) / rw,
-//            (mRelativeLayout.getHeight() * 80) / rh
-            (mRelativeLayout.getHeight() * 46) / 900
+            seatPosition.getSeatsPosition(),
+            seatPosition.getSeatLeftMargin(),
+            seatPosition.getSeatTopmargin(),
+            seatPosition.getSeatBottommargin(),
+            seatPosition.getSeatWidth(),
+            seatPosition.getSeatHeight()
         );
     }
 
