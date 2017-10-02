@@ -37,6 +37,43 @@ public class SeatPosition {
 
         switch (seatCount) {
 
+            case 10:
+                rw = 764;
+                rh = 960;
+
+                ratioLeft = 74 / rw;
+                ratioTop = 495 / rh;
+                ratioBottom = 30 / rh;
+                ratioSeatWidth = 106 / rw;
+                ratioSeatHeight = 80 / rh;
+                seatsPosition = new int [][]{
+                        {2, 3, 4},
+                        {5, 6, 7},
+                        {8, 9, 10}
+
+                };
+                break;
+
+            case 11:
+                seatsPosition = new int [][]{
+                        {3, 4, 5},
+                        {6, 7, 8},
+                        {9, 10, 11,}
+
+                };
+                break;
+
+
+            case 14:
+                seatsPosition = new int [][]{
+                        {3, 4, 5},
+                        {6, 7, 8},
+                        {9, 10, 11},
+                        {12, 13, 14}
+
+                };
+                break;
+
             case 24:
                 seatsPosition = new int[][]{
                         {2, 3, 4},
@@ -155,7 +192,7 @@ public class SeatPosition {
 
             case 38:
                 rw = 764;
-                rh = 1440;
+                rh = 1200;
 
                 ratioLeft = 74 / rw;
                 ratioTop = 332 / rh;
