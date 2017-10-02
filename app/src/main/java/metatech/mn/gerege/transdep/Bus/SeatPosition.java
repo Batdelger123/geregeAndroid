@@ -63,7 +63,6 @@ public class SeatPosition {
                 };
                 break;
 
-
             case 14:
                 seatsPosition = new int [][]{
                         {3, 4, 5},
@@ -75,8 +74,16 @@ public class SeatPosition {
                 break;
 
             case 24:
+                rw = 764;
+                rh = 1200;
+
+                ratioLeft = 150 / rw;
+                ratioTop = 490 / rh;
+                ratioBottom = 30 / rh;
+                ratioSeatWidth = 106 / rw;
+                ratioSeatHeight = 80 / rh;
+
                 seatsPosition = new int[][]{
-                        {2, 3, 4},
                         {5, 6, -1},
                         {7, 8, 9},
                         {10, 11, 12},
@@ -88,8 +95,16 @@ public class SeatPosition {
                 break;
 
             case 25:
+                rw = 764;
+                rh = 1200;
+
+                ratioLeft = 100 / rw;
+                ratioTop = 490 / rh;
+                ratioBottom = 30 / rh;
+                ratioSeatWidth = 106 / rw;
+                ratioSeatHeight = 80 / rh;
+
                 seatsPosition = new int[][]{
-                        {-1, -1, -1, 1},
                         {2, 3, -1, -1},
                         {4, 5, -1, -1},
                         {6, 7, 8, 9},
@@ -101,8 +116,16 @@ public class SeatPosition {
                 break;
 
             case 26:
+                rw = 764;
+                rh = 1200;
+
+                ratioLeft = 100 / rw;
+                ratioTop = 490 / rh;
+                ratioBottom = 30 / rh;
+                ratioSeatWidth = 106 / rw;
+                ratioSeatHeight = 80 / rh;
+
                 seatsPosition = new int[][]{
-                        {-1, -1, -1, 1},
                         {2, 3, -1, -1},
                         {4, 5, 6, -1},
                         {7, 8, 9, 10},
@@ -114,8 +137,16 @@ public class SeatPosition {
                 break;
 
             case 28:
+                rw = 764;
+                rh = 1200;
+
+                ratioLeft = 80 / rw;
+                ratioTop = 490 / rh;
+                ratioBottom = 30 / rh;
+                ratioSeatWidth = 106 / rw;
+                ratioSeatHeight = 80 / rh;
+
                 seatsPosition = new int[][]{
-                        {-1, -1, -1, -1, 1},
                         {2, 3, -1, -1, -1},
                         {3, 5, -1, 6, 7},
                         {8, 9, -1, 10, 11},
@@ -127,8 +158,16 @@ public class SeatPosition {
                 break;
 
             case 29:
+                rw = 764;
+                rh = 1200;
+
+                ratioLeft = 80 / rw;
+                ratioTop = 490 / rh;
+                ratioBottom = 30 / rh;
+                ratioSeatWidth = 106 / rw;
+                ratioSeatHeight = 80 / rh;
+
                 seatsPosition = new int[][]{
-                        {-1, -1, -1, 1, 2},
                         {3, 4, -1, -1, -1},
                         {5, 6, -1, 7, 8},
                         {9, 10, -1, 11, 12},
@@ -139,8 +178,16 @@ public class SeatPosition {
                 };
                 break;
             case 34:
+                rw = 764;
+                rh = 1200;
+
+                ratioLeft = 80 / rw;
+                ratioTop = 495 / rh;
+                ratioBottom = 35 / rh;
+                ratioSeatWidth = 100 / rw;
+                ratioSeatHeight = 70 / rh;
+
                 seatsPosition = new int[][]{
-                        {-1, -1, -1, -1, 1},
                         {-1, -1, -1, -1, -1},
                         {2, 3, -1, 4, 5},
                         {6, 7, -1, 8, 9},
@@ -177,8 +224,17 @@ public class SeatPosition {
                 break;
 
             case 36:
+                rw = 764;
+                rh = 1200;
+
+                ratioLeft = 80 / rw;
+                ratioTop = 490 / rh;
+                ratioBottom = 35 / rh;
+                ratioSeatWidth = 106 / rw;
+                ratioSeatHeight = 80 / rh;
+
                 seatsPosition = new int[][]{
-                        {19, 20, 21, 22, 23},
+                        //{19, 20, 21, 22, 23}
                         {1, 2, -1, -1, -1},
                         {3, 4, -1, 5, 6},
                         {7, 8, -1, 9, 10},
