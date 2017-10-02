@@ -41,9 +41,9 @@ public class SeatPosition {
                 rw = 764;
                 rh = 960;
 
-                ratioLeft = 74 / rw;
+                ratioLeft = 110 / rw;
                 ratioTop = 495 / rh;
-                ratioBottom = 30 / rh;
+                ratioBottom = 60 / rh;
                 ratioSeatWidth = 106 / rw;
                 ratioSeatHeight = 80 / rh;
                 seatsPosition = new int [][]{
@@ -55,15 +55,34 @@ public class SeatPosition {
                 break;
 
             case 11:
+                rw = 764;
+                rh = 960;
+
+                ratioLeft = 110 / rw;
+                ratioTop = 495 / rh;
+                ratioBottom = 60 / rh;
+                ratioSeatWidth = 106 / rw;
+                ratioSeatHeight = 80 / rh;
                 seatsPosition = new int [][]{
+
                         {3, 4, 5},
                         {6, 7, 8},
-                        {9, 10, 11,}
+                        {9, 10, 11}
 
                 };
                 break;
 
             case 14:
+
+                rw = 764;
+                rh = 960;
+
+                ratioLeft = 110 / rw;
+                ratioTop = 370 / rh;
+                ratioBottom = 60 / rh;
+                ratioSeatWidth = 106 / rw;
+                ratioSeatHeight = 80 / rh;
+
                 seatsPosition = new int [][]{
                         {3, 4, 5},
                         {6, 7, 8},
