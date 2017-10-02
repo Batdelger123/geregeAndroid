@@ -45,7 +45,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
         holder.tvDirection.setText(item.getStartStopName() + " - " + item.getEndStopName());
         holder.tvParking.setText(item.getEndStopName().substring(item.getEndStopName().indexOf(".") + 1));
         holder.tvDate.setText(item.getLeaveDate().replace("T", ", ").replace("Z", ""));
-        holder.tvBus.setText(item.getSitCount() + " хүний суудалтай " + item.getCarTypeName());
+        holder.tvBus.setText(item.getSeatCount() + " хүний суудалтай " + item.getCarTypeName());
     }
 
     @Override

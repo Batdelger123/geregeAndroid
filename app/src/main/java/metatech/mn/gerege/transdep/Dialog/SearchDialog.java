@@ -94,6 +94,7 @@ public class SearchDialog extends DialogFragment implements CustomAdapter.Custom
                             }
 
                             Intent intent = new Intent(getActivity(), Bus.class);
+                            intent.putExtra(Bus.BUS_SEAT_COUNT, listItems.get(position).getSeatCount());
                             intent.putExtra(Bus.BUS_AVAIL_SEATS, availSeats);
                             intent.putExtra(Bus.BUS_PASSENGER, noOfPassenger);
                             intent.putExtra(Bus.BUS_DISPATCHER, listItems.get(position));

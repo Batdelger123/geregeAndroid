@@ -30,6 +30,7 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
     public static int BUS_BIG = 1;
     public static int BUS_MEDIUM = 2;
     public static int BUS_SMALL = 3;
+    public static String BUS_SEAT_COUNT = "countSeat";
     public static String BUS_AVAIL_SEATS = "availSeats";
     public static String BUS_DISPATCHER = "dispatcher";
     public static String BUS_PASSENGER = "noOfPassenger";
@@ -38,7 +39,8 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
 
     private List<Integer> availSeats;
     private List<Seat> selectedSeats;
-    private int noOfPassenger;
+    private int countPassenger;
+    private int countSeat;
     private Dispatcher dispatcher;
 
     private FloatingActionButton floatingActionButton;
@@ -53,7 +55,8 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
 
         dispatcher = (Dispatcher) bundle.getSerializable(Bus.BUS_DISPATCHER);
         availSeats = bundle.getIntegerArrayList(Bus.BUS_AVAIL_SEATS);
-        noOfPassenger = bundle.getInt(Bus.BUS_PASSENGER);
+        countPassenger = bundle.getInt(Bus.BUS_PASSENGER);
+        countSeat = bundle.getInt(Bus.BUS_SEAT_COUNT);
         selectedSeats = new ArrayList<>();
 
         mRelativeLayout = (RelativeLayout) findViewById(R.id.root_bus);
@@ -71,19 +74,8 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
             mRelativeLayout.setBackgroundResource(R.drawable.bus_small);
         }
 
-        final int array[][] = {
-                {1,  2,  -1, 3, 4},
-                {5,  6,  -1, 7,  8},
-                {9,  10, -1, 11, 12},
-                {13, 14, -1, 15, 16},
-                {17, 18, -1, 19, 20},
-                {21, 22, -1, 23, 24},
-                {25, 26, -1, 27, 28},
-                {29, 30, -1, 31, 32},
-                {33, 34, -1, 35, 36},
-                {37, 38, -1, 39, 40},
-                {41, 42, 43, 44, 45},
-        };
+        //final int array[][] = SeatPosition.getPosition(countSeat);
+        final int array[][] = SeatPosition.getSeatsPosition(countSeat);
 
         final Handler handler = new Handler();
         handler.postDelayed(
@@ -94,6 +86,7 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
                         handler.postDelayed(this, 10);
                         return;
                     }
+
                     if (dispatcher.getCarTypeId() == BUS_BIG) {
                         drawBigBusSeats(array);
                     }
@@ -119,17 +112,17 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
             selectedSeats.remove(seat);
             floatingActionButton.hide();
         } else {                        // suudal songoh
-            if (selectedSeats.size() == noOfPassenger) {
+            if (selectedSeats.size() == countPassenger) {
                 selectedSeats.get(0).setSelected(false);
                 selectedSeats.remove(0).invalidate();
                 selectedSeats.add(seat);
                 seat.setSelected(true);
             }
-            if (selectedSeats.size() < noOfPassenger) {
+            if (selectedSeats.size() < countPassenger) {
                 seat.setSelected(true);
                 selectedSeats.add(seat);
             }
-            if (selectedSeats.size() == noOfPassenger && selectedSeats.size() != 0) {
+            if (selectedSeats.size() == countPassenger && selectedSeats.size() != 0) {
                 floatingActionButton.show();
             }
         }
@@ -179,7 +172,7 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
         drawBus(
                 array,
                 (mRelativeLayout.getWidth() * 80) / rw,
-                (mRelativeLayout.getHeight() * 468) / rh,
+                (mRelativeLayout.getHeight() * 322) / rh,
                 (mRelativeLayout.getHeight() * 50) / rh,
                 (mRelativeLayout.getWidth() * 108) / rw,
                 (mRelativeLayout.getHeight() * 76) / rh
@@ -195,6 +188,7 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
 //        seatHeight: 80
 
 //        marginTop : 332
+
 //        marginLeft : 74
 //        marginBottom : 30
 
@@ -242,7 +236,7 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
                     seat.setListener(Bus.this);
                     seat.setSeatColor(ContextCompat.getColor(Bus.this, R.color.seat_color_green));
 
-                    if (temp < noOfPassenger) {
+                    if (temp < countPassenger) {
                         seat.setSelected(true);
                         temp++;
                         selectedSeats.add(seat);
@@ -251,7 +245,7 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
             }
         }
 
-        if (selectedSeats.size() == noOfPassenger && selectedSeats.size() != 0) {
+        if (selectedSeats.size() == countPassenger && selectedSeats.size() != 0) {
             floatingActionButton.show();
         }
     }

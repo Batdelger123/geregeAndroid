@@ -13,7 +13,7 @@ public class Dispatcher implements Serializable{
     private int startStopId;
     private int endStopId;
     private int carTypeId;
-    private int sitCount;
+    private int seatCount;
     private String directionName;
     private String startStopName;
     private String endStopName;
@@ -29,7 +29,7 @@ public class Dispatcher implements Serializable{
         this.startStopId = startStopId;
         this.endStopId = endStopId;
         this.carTypeId = carTypeId;
-        this.sitCount = sitCount;
+        this.seatCount = sitCount;
         this.directionName = directionName;
         this.startStopName = startStopName;
         this.endStopName = endStopName;
@@ -77,12 +77,12 @@ public class Dispatcher implements Serializable{
         this.carTypeId = carTypeId;
     }
 
-    public int getSitCount() {
-        return sitCount;
+    public int getSeatCount() {
+        return seatCount;
     }
 
-    public void setSitCount(int sitCount) {
-        this.sitCount = sitCount;
+    public void setSeatCount(int sitCount) {
+        this.seatCount = sitCount;
     }
 
     public String getDirectionName() {
