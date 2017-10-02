@@ -36,22 +36,12 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
 
     private RelativeLayout mRelativeLayout;
 
-    private int busType;
-    private int seats[][];
     private List<Integer> availSeats;
     private List<Seat> selectedSeats;
     private int noOfPassenger;
     private Dispatcher dispatcher;
+
     private FloatingActionButton floatingActionButton;
-
-    public Bus() {
-    }
-
-    public Bus(int bustType, int seats[][], List<Integer> availSeats) {
-        this.busType = bustType;
-        this.seats = seats;
-        this.availSeats = availSeats;
-    }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -217,7 +207,8 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
             (mRelativeLayout.getHeight() * 332) / rh,
             (mRelativeLayout.getHeight() * 30) / rh,
             (mRelativeLayout.getWidth() * 106) / rw,
-            (mRelativeLayout.getHeight() * 80) / rh
+//            (mRelativeLayout.getHeight() * 80) / rh
+            (mRelativeLayout.getHeight() * 46) / 900
         );
     }
 
@@ -256,9 +247,12 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
                         temp++;
                         selectedSeats.add(seat);
                     }
-
                 }
             }
+        }
+
+        if (selectedSeats.size() == noOfPassenger && selectedSeats.size() != 0) {
+            floatingActionButton.show();
         }
     }
 

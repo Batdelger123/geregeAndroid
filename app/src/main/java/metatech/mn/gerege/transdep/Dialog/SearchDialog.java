@@ -80,7 +80,7 @@ public class SearchDialog extends DialogFragment implements CustomAdapter.Custom
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
-                "http://metakioskdb.intelmax.mn/ords/pdb1/testuser1/reference/avail_seats",
+                "http://49.0.223.22:8080/ords/metapos/testuser1/reference/avail_seats1",
                 new JSONObject(requestBody),
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -117,7 +117,7 @@ public class SearchDialog extends DialogFragment implements CustomAdapter.Custom
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> hashMap = new HashMap<>();
                 hashMap.put("Content-Type", "application/json");
-                hashMap.put("Authorization", "Bearer _ODSeP6l9soQsZPVMEUPVw..");
+                hashMap.put("Authorization", "Bearer vdDMwYuQOpsRAvdkzxxGLA..");
 
                 return hashMap;
             }

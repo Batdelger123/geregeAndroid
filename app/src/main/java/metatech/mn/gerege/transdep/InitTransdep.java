@@ -199,8 +199,8 @@ public class InitTransdep extends Fragment implements StartStopDialog.StartStopD
 
                     Data data = new Data(
                             getContext(),
-                            "http://metakioskdb.intelmax.mn/ords/pdb1/testuser1/reference/avail_dispatchers",
-                            "Bearer _ODSeP6l9soQsZPVMEUPVw..",
+                            "http://49.0.223.22:8080/ords/metapos/testuser1/reference/avail_dispatchers1",
+                            "Bearer vdDMwYuQOpsRAvdkzxxGLA..",
                             endTariff,
                             etDeparting.getText().toString(),
                             (countAdult + countChild)
