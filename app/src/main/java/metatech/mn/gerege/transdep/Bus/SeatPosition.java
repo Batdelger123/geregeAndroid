@@ -1,39 +1,33 @@
 package metatech.mn.gerege.transdep.Bus;
 
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import metatech.mn.gerege.R;
+
 /**
  * Created by Enkhtur on 10/2/2017.
  */
 
 public class SeatPosition {
 
-    private int parentWidth;
-    private int parentHeight;
-    private int seatCount;
-    private int seatsPosition[][];
+    private int position[][];
 
-    private int seatLeftMargin;
-    private int seatTopmargin;
-    private int seatBottommargin;
+    private int left;
+    private int top;
+    private int bottom;
     private int seatWidth;
     private int seatHeight;
+    private List<Seat> additionalSeats;
 
-    public SeatPosition(int parentWidth, int parentHeight, int seatCount) {
-        this.parentWidth = parentWidth;
-        this.parentHeight = parentHeight;
-        this.seatCount = seatCount;
-
-        init();
-    }
-
-    public void init() {
+    public static SeatPosition getInstance(Context context, int parentWidth, int parentHeight, int seatCount) {
         float rw = 0;
         float rh = 0;
 
-        float ratioLeft = 0;
-        float ratioTop = 0;
-        float ratioBottom = 0;
-        float ratioSeatWidth = 0;
-        float ratioSeatHeight = 0;
+        SeatPosition seatPosition = new SeatPosition();
 
         switch (seatCount) {
 
@@ -41,68 +35,80 @@ public class SeatPosition {
                 rw = 764;
                 rh = 960;
 
-                ratioLeft = 110 / rw;
-                ratioTop = 495 / rh;
-                ratioBottom = 60 / rh;
-                ratioSeatWidth = 106 / rw;
-                ratioSeatHeight = 80 / rh;
-                seatsPosition = new int [][]{
+                seatPosition.left = (int) (parentWidth * (110 / rw));
+                seatPosition.top = (int) (parentHeight * (495 / rh));
+                seatPosition.bottom = (int) (parentHeight * (60 / rh));
+                seatPosition.seatWidth = (int) (parentWidth * (106 / rw));
+                seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
+
+                seatPosition.position = new int [][]{
                         {2, 3, 4},
                         {5, 6, 7},
                         {8, 9, 10}
-
                 };
-                break;
+
+                seatPosition.additionalSeats = new ArrayList<>();
+                Seat seat = new Seat(context);
+                seat.setText("1");
+                seat.setSizePostion(
+                        (int) (parentWidth * (557 / rw)),
+                        (int) (parentHeight * (140 / rh)),
+                        seatPosition.seatWidth,
+                        seatPosition.seatHeight
+                );
+
+                seatPosition.additionalSeats.add(seat);
+
+
+                return seatPosition;
 
             case 11:
                 rw = 764;
                 rh = 960;
 
-                ratioLeft = 110 / rw;
-                ratioTop = 495 / rh;
-                ratioBottom = 60 / rh;
-                ratioSeatWidth = 106 / rw;
-                ratioSeatHeight = 80 / rh;
-                seatsPosition = new int [][]{
+                seatPosition.left = (int) (parentWidth * (110 / rw));
+                seatPosition.top = (int) (parentHeight * (495 / rh));
+                seatPosition.bottom = (int) (parentHeight * (60 / rh));
+                seatPosition.seatWidth = (int) (parentWidth * (106 / rw));
+                seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
 
+                seatPosition.position = new int [][]{
                         {3, 4, 5},
                         {6, 7, 8},
                         {9, 10, 11}
-
                 };
-                break;
+                return seatPosition;
 
             case 14:
 
                 rw = 764;
                 rh = 960;
 
-                ratioLeft = 110 / rw;
-                ratioTop = 370 / rh;
-                ratioBottom = 60 / rh;
-                ratioSeatWidth = 106 / rw;
-                ratioSeatHeight = 80 / rh;
+                seatPosition.left = (int) (parentWidth * (110 / rw));
+                seatPosition.top = (int) (parentHeight * (370 / rh));
+                seatPosition.bottom = (int) (parentHeight * (60 / rh));
+                seatPosition.seatWidth = (int) (parentWidth * (106 / rw));
+                seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
 
-                seatsPosition = new int [][]{
+                seatPosition.position = new int [][]{
                         {3, 4, 5},
                         {6, 7, 8},
                         {9, 10, 11},
                         {12, 13, 14}
-
                 };
-                break;
+                return seatPosition;
 
             case 24:
                 rw = 764;
                 rh = 1200;
 
-                ratioLeft = 150 / rw;
-                ratioTop = 490 / rh;
-                ratioBottom = 30 / rh;
-                ratioSeatWidth = 106 / rw;
-                ratioSeatHeight = 80 / rh;
+                seatPosition.left = (int) (parentWidth * (150 / rw));
+                seatPosition.top = (int) (parentHeight * (490 / rh));
+                seatPosition.bottom = (int) (parentHeight * (30 / rh));
+                seatPosition.seatWidth = (int) (parentWidth * (106 / rw));
+                seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
 
-                seatsPosition = new int[][]{
+                seatPosition.position = new int[][]{
                         {5, 6, -1},
                         {7, 8, 9},
                         {10, 11, 12},
@@ -111,19 +117,19 @@ public class SeatPosition {
                         {19, 20, 21},
                         {22, 23, 24}
                 };
-                break;
+                return seatPosition;
 
             case 25:
                 rw = 764;
                 rh = 1200;
 
-                ratioLeft = 100 / rw;
-                ratioTop = 490 / rh;
-                ratioBottom = 30 / rh;
-                ratioSeatWidth = 106 / rw;
-                ratioSeatHeight = 80 / rh;
+                seatPosition.left = (int) (parentWidth * (100 / rw));
+                seatPosition.top = (int) (parentHeight * (490 / rh));
+                seatPosition.bottom = (int) (parentHeight * (30 / rh));
+                seatPosition.seatWidth = (int) (parentWidth * (106 / rw));
+                seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
 
-                seatsPosition = new int[][]{
+                seatPosition.position = new int[][]{
                         {2, 3, -1, -1},
                         {4, 5, -1, -1},
                         {6, 7, 8, 9},
@@ -132,19 +138,19 @@ public class SeatPosition {
                         {18, 19, 20, 21},
                         {22, 23, 24, 25}
                 };
-                break;
+                return seatPosition;
 
             case 26:
                 rw = 764;
                 rh = 1200;
 
-                ratioLeft = 100 / rw;
-                ratioTop = 490 / rh;
-                ratioBottom = 30 / rh;
-                ratioSeatWidth = 106 / rw;
-                ratioSeatHeight = 80 / rh;
+                seatPosition.left = (int) (parentWidth * (100 / rw));
+                seatPosition.top = (int) (parentHeight * (490 / rh));
+                seatPosition.bottom = (int) (parentHeight * (30 / rh));
+                seatPosition.seatWidth = (int) (parentWidth * (106 / rw));
+                seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
 
-                seatsPosition = new int[][]{
+                seatPosition.position = new int[][]{
                         {2, 3, -1, -1},
                         {4, 5, 6, -1},
                         {7, 8, 9, 10},
@@ -153,19 +159,19 @@ public class SeatPosition {
                         {19, 20, 21, 22},
                         {23, 24, 25, 26}
                 };
-                break;
+                return seatPosition;
 
             case 28:
                 rw = 764;
                 rh = 1200;
 
-                ratioLeft = 80 / rw;
-                ratioTop = 490 / rh;
-                ratioBottom = 30 / rh;
-                ratioSeatWidth = 106 / rw;
-                ratioSeatHeight = 80 / rh;
+                seatPosition.left = (int) (parentWidth * (80 / rw));
+                seatPosition.top = (int) (parentHeight * (490 / rh));
+                seatPosition.bottom = (int) (parentHeight * (30 / rh));
+                seatPosition.seatWidth = (int) (parentWidth * (106 / rw));
+                seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
 
-                seatsPosition = new int[][]{
+                seatPosition.position = new int[][]{
                         {2, 3, -1, -1, -1},
                         {3, 5, -1, 6, 7},
                         {8, 9, -1, 10, 11},
@@ -174,19 +180,19 @@ public class SeatPosition {
                         {20, 21, -1, 22, 23},
                         {24, 25, 26, 27, 28}
                 };
-                break;
+                return seatPosition;
 
             case 29:
                 rw = 764;
                 rh = 1200;
 
-                ratioLeft = 80 / rw;
-                ratioTop = 490 / rh;
-                ratioBottom = 30 / rh;
-                ratioSeatWidth = 106 / rw;
-                ratioSeatHeight = 80 / rh;
+                seatPosition.left = (int) (parentWidth * (80 / rw));
+                seatPosition.top = (int) (parentHeight * (490 / rh));
+                seatPosition.bottom = (int) (parentHeight * (30 / rh));
+                seatPosition.seatWidth = (int) (parentWidth * (106 / rw));
+                seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
 
-                seatsPosition = new int[][]{
+                seatPosition.position = new int[][]{
                         {3, 4, -1, -1, -1},
                         {5, 6, -1, 7, 8},
                         {9, 10, -1, 11, 12},
@@ -195,18 +201,18 @@ public class SeatPosition {
                         {21, 22, -1, 23, 24},
                         {25, 26, 27, 28, 29}
                 };
-                break;
+                return seatPosition;
             case 34:
                 rw = 764;
                 rh = 1200;
 
-                ratioLeft = 80 / rw;
-                ratioTop = 495 / rh;
-                ratioBottom = 35 / rh;
-                ratioSeatWidth = 100 / rw;
-                ratioSeatHeight = 70 / rh;
+                seatPosition.left = (int) (parentWidth * (80 / rw));
+                seatPosition.top = (int) (parentHeight * (495 / rh));
+                seatPosition.bottom = (int) (parentHeight * (30 / rh));
+                seatPosition.seatWidth = (int) (parentWidth * (100 / rw));
+                seatPosition.seatHeight = (int) (parentHeight * (70 / rh));
 
-                seatsPosition = new int[][]{
+                seatPosition.position = new int[][]{
                         {-1, -1, -1, -1, -1},
                         {2, 3, -1, 4, 5},
                         {6, 7, -1, 8, 9},
@@ -217,19 +223,19 @@ public class SeatPosition {
                         {26, 27, -1, 28, 29},
                         {30, 31, 32, 33, 34}
                 };
-                break;
+                return seatPosition;
 
             case 35:
                 rw = 764;
                 rh = 1440;
 
-                ratioLeft = 74 / rw;
-                ratioTop = 332 / rh;
-                ratioBottom = 30 / rh;
-                ratioSeatWidth = 106 / rw;
-                ratioSeatHeight = 80 / rh;
+                seatPosition.left = (int) (parentWidth * (74 / rw));
+                seatPosition.top = (int) (parentHeight * (332 / rh));
+                seatPosition.bottom = (int) (parentHeight * (30 / rh));
+                seatPosition.seatWidth = (int) (parentWidth * (106 / rw));
+                seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
 
-                seatsPosition = new int[][]{
+                seatPosition.position = new int[][]{
                         {1, 2, -1, 3, 4},
                         {5, 6, -1, 7, 8},
                         {9, 10, -1, 11, 12},
@@ -240,19 +246,19 @@ public class SeatPosition {
                         {29, 30, -1, -1, -1},
                         {31, 32, 33, 34, 35}
                 };
-                break;
+                return seatPosition;
 
             case 36:
                 rw = 764;
                 rh = 1200;
 
-                ratioLeft = 80 / rw;
-                ratioTop = 490 / rh;
-                ratioBottom = 35 / rh;
-                ratioSeatWidth = 106 / rw;
-                ratioSeatHeight = 80 / rh;
+                seatPosition.left = (int) (parentWidth * (80 / rw));
+                seatPosition.top = (int) (parentHeight * (490 / rh));
+                seatPosition.bottom = (int) (parentHeight * (35 / rh));
+                seatPosition.seatWidth = (int) (parentWidth * (106 / rw));
+                seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
 
-                seatsPosition = new int[][]{
+                seatPosition.position = new int[][]{
                         //{19, 20, 21, 22, 23}
                         {1, 2, -1, -1, -1},
                         {3, 4, -1, 5, 6},
@@ -263,19 +269,19 @@ public class SeatPosition {
                         {28, 29, -1, 30, 31},
                         {32, 33, 34, 35, 36}
                 };
-                break;
+                return seatPosition;
 
             case 38:
                 rw = 764;
                 rh = 1200;
 
-                ratioLeft = 74 / rw;
-                ratioTop = 332 / rh;
-                ratioBottom = 30 / rh;
-                ratioSeatWidth = 106 / rw;
-                ratioSeatHeight = 80 / rh;
+                seatPosition.left = (int) (parentWidth * (74 / rw));
+                seatPosition.top = (int) (parentHeight * (332 / rh));
+                seatPosition.bottom = (int) (parentHeight * (30 / rh));
+                seatPosition.seatWidth = (int) (parentWidth * (106 / rw));
+                seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
 
-                seatsPosition = new int[][]{
+                seatPosition.position = new int[][]{
                         {-1, -1, -1, -1, 1},
                         {2, 3, -1, 4, 5},
                         {6, 7, -1, 8, 9},
@@ -287,19 +293,19 @@ public class SeatPosition {
                         {30, 31, -1, 32, 33},
                         {34, 35, 36, 37, 38}
                 };
-                break;
+                return seatPosition;
 
             case 40:
                 rw = 764;
                 rh = 1440;
 
-                ratioLeft = 74 / rw;
-                ratioTop = 332 / rh;
-                ratioBottom = 30 / rh;
-                ratioSeatWidth = 106 / rw;
-                ratioSeatHeight = 80 / rh;
+                seatPosition.left = (int) (parentWidth * (74 / rw));
+                seatPosition.top = (int) (parentHeight * (332 / rh));
+                seatPosition.bottom = (int) (parentHeight * (30 / rh));
+                seatPosition.seatWidth = (int) (parentWidth * (106 / rw));
+                seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
 
-                seatsPosition = new int[][]{
+                seatPosition.position = new int[][]{
                         {1, 2, -1, 3, 4},
                         {5, 6, -1, 7, 8},
                         {9, 10, -1, 11, 12},
@@ -311,19 +317,19 @@ public class SeatPosition {
                         {33, 34, -1, 35, 36},
                         {37, 38, -1, 39, 40}
                 };
-                break;
+                return seatPosition;
 
             case 41:
                 rw = 764;
                 rh = 1440;
 
-                ratioLeft = 74 / rw;
-                ratioTop = 332 / rh;
-                ratioBottom = 30 / rh;
-                ratioSeatWidth = 106 / rw;
-                ratioSeatHeight = 80 / rh;
+                seatPosition.left = (int) (parentWidth * (74 / rw));
+                seatPosition.top = (int) (parentHeight * (332 / rh));
+                seatPosition.bottom = (int) (parentHeight * (30 / rh));
+                seatPosition.seatWidth = (int) (parentWidth * (106 / rw));
+                seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
 
-                seatsPosition = new int[][]{
+                seatPosition.position = new int[][]{
                         {1, 2, -1, 3, 4},
                         {5, 6, -1, 7, 8},
                         {9, 10, -1, 11, 12},
@@ -335,19 +341,19 @@ public class SeatPosition {
                         {33, 34, -1, 35, 36},
                         {37, 38, 39, 40, 41}
                 };
-                break;
+                return seatPosition;
 
             case 43:
                 rw = 764;
                 rh = 1440;
 
-                ratioLeft = 74 / rw;
-                ratioTop = 332 / rh;
-                ratioBottom = 30 / rh;
-                ratioSeatWidth = 106 / rw;
-                ratioSeatHeight = 80 / rh;
+                seatPosition.left = (int) (parentWidth * (74 / rw));
+                seatPosition.top = (int) (parentHeight * (332 / rh));
+                seatPosition.bottom = (int) (parentHeight * (30 / rh));
+                seatPosition.seatWidth = (int) (parentWidth * (106 / rw));
+                seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
 
-                seatsPosition = new int[][]{
+                seatPosition.position = new int[][]{
                         {1, 2, -1, -1, -1},
                         {3, 4, -1, 5, 6},
                         {7, 8, -1, 9, 10},
@@ -360,19 +366,19 @@ public class SeatPosition {
                         {35, 36, -1, 37, 38},
                         {39, 40, 41, 42, 43},
                 };
-                break;
+                return seatPosition;
 
             case 44:
                 rw = 764;
                 rh = 1440;
 
-                ratioLeft = 74 / rw;
-                ratioTop = 332 / rh;
-                ratioBottom = 30 / rh;
-                ratioSeatWidth = 106 / rw;
-                ratioSeatHeight = 80 / rh;
+                seatPosition.left = (int) (parentWidth * (74 / rw));
+                seatPosition.top = (int) (parentHeight * (332 / rh));
+                seatPosition.bottom = (int) (parentHeight * (30 / rh));
+                seatPosition.seatWidth = (int) (parentWidth * (106 / rw));
+                seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
 
-                seatsPosition = new int[][]{
+                seatPosition.position = new int[][]{
                         {1, 2, -1, 3, 4},
                         {5, 6, -1, 7, 8},
                         {9, 10, -1, 11, 12},
@@ -385,19 +391,19 @@ public class SeatPosition {
                         {37, 38, -1, 39, 40},
                         {41, 42, -1, 43, 44}
                 };
-                break;
+                return seatPosition;
 
             case 45:
                 rw = 764;
                 rh = 1440;
 
-                ratioLeft = 74 / rw;
-                ratioTop = 332 / rh;
-                ratioBottom = 30 / rh;
-                ratioSeatWidth = 106 / rw;
-                ratioSeatHeight = 80 / rh;
+                seatPosition.left = (int) (parentWidth * (74 / rw));
+                seatPosition.top = (int) (parentHeight * (332 / rh));
+                seatPosition.bottom = (int) (parentHeight * (30 / rh));
+                seatPosition.seatWidth = (int) (parentWidth * (106 / rw));
+                seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
 
-                seatsPosition = new int[][]{
+                seatPosition.position = new int[][]{
                         {1, 2, -1, 3, 4},
                         {5, 6, -1, 7, 8},
                         {9, 10, -1, 11, 12},
@@ -410,19 +416,19 @@ public class SeatPosition {
                         {37, 38, -1, 39, 40},
                         {41, 42, 43, 44, 45}
                 };
-                break;
+                return seatPosition;
 
             case 48:
                 rw = 764;
                 rh = 1440;
 
-                ratioLeft = 74 / rw;
-                ratioTop = 332 / rh;
-                ratioBottom = 30 / rh;
-                ratioSeatWidth = 106 / rw;
-                ratioSeatHeight = 80 / rh;
+                seatPosition.left = (int) (parentWidth * (74 / rw));
+                seatPosition.top = (int) (parentHeight * (332 / rh));
+                seatPosition.bottom = (int) (parentHeight * (30 / rh));
+                seatPosition.seatWidth = (int) (parentWidth * (106 / rw));
+                seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
 
-                seatsPosition = new int[][]{
+                seatPosition.position = new int[][]{
                         {1, 2, -1, 3, 4},
                         {5, 6, -1, 7, 8},
                         {9, 10, -1, 11, 12},
@@ -436,19 +442,19 @@ public class SeatPosition {
                         {41, 42, -1, 43, 44},
                         {45, 46, -1, 47, 48}
                 };
-                break;
+                return seatPosition;
 
             case 53:
                 rw = 764;
                 rh = 1440;
 
-                ratioLeft = 74 / rw;
-                ratioTop = 332 / rh;
-                ratioBottom = 30 / rh;
-                ratioSeatWidth = 106 / rw;
-                ratioSeatHeight = 80 / rh;
+                seatPosition.left = (int) (parentWidth * (74 / rw));
+                seatPosition.top = (int) (parentHeight * (332 / rh));
+                seatPosition.bottom = (int) (parentHeight * (30 / rh));
+                seatPosition.seatWidth = (int) (parentWidth * (106 / rw));
+                seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
 
-                seatsPosition = new int[][]{
+                seatPosition.position = new int[][]{
                         {1, 2, -1, 3, 4},
                         {5, 6, -1, 7, 8},
                         {9, 10, -1, 11, 12},
@@ -463,19 +469,19 @@ public class SeatPosition {
                         {45, 46, -1, 47, 48},
                         {49, 50, 51, 52, 53}
                 };
-                break;
+                return seatPosition;
 
             case 54:
                 rw = 764;
                 rh = 1440;
 
-                ratioLeft = 74 / rw;
-                ratioTop = 332 / rh;
-                ratioBottom = 30 / rh;
-                ratioSeatWidth = 106 / rw;
-                ratioSeatHeight = 80 / rh;
+                seatPosition.left = (int) (parentWidth * (74 / rw));
+                seatPosition.top = (int) (parentHeight * (332 / rh));
+                seatPosition.bottom = (int) (parentHeight * (30 / rh));
+                seatPosition.seatWidth = (int) (parentWidth * (106 / rw));
+                seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
 
-                seatsPosition = new int[][]{
+                seatPosition.position = new int[][]{
                         {-1, -1, -1, -1, 1},
                         {2, 3, -1, 4, 5},
                         {6, 7, -1, 8, 9},
@@ -491,46 +497,48 @@ public class SeatPosition {
                         {46, 47, -1, 48, 49},
                         {50, 51, 52, 53, 54}
                 };
-                break;
+                return seatPosition;
 
             default:
-                seatsPosition = null;
-                break;
+                seatPosition.position = null;
+                return null;
         }
-
-        seatLeftMargin = (int) (parentWidth * ratioLeft);
-        seatTopmargin = (int) (parentHeight * ratioTop);
-        seatBottommargin = (int) (parentHeight * ratioBottom);
-        seatWidth = (int) (parentWidth * ratioSeatWidth);
-        seatHeight = (int) (parentHeight * ratioSeatHeight);
     }
 
-    public void setSeatsPosition(int[][] seatsPosition) {
-        this.seatsPosition = seatsPosition;
+    public int[][] getSeatsPosition() {
+        return position;
     }
 
-    public int getSeatLeftMargin() {
-        return seatLeftMargin;
+    public void setSeatsPosition(int[][] seats) {
+        this.position = seats;
     }
 
-    public void setSeatLeftMargin(int seatLeftMargin) {
-        this.seatLeftMargin = seatLeftMargin;
+    public List<Seat> getAdditionalSeats() {
+        return additionalSeats;
     }
 
-    public int getSeatTopmargin() {
-        return seatTopmargin;
+    public int getLeft() {
+        return left;
     }
 
-    public void setSeatTopmargin(int seatTopmargin) {
-        this.seatTopmargin = seatTopmargin;
+    public void setLeft(int left) {
+        this.left = left;
     }
 
-    public int getSeatBottommargin() {
-        return seatBottommargin;
+    public int getTop() {
+        return top;
     }
 
-    public void setSeatBottommargin(int seatBottommargin) {
-        this.seatBottommargin = seatBottommargin;
+    public void setTop(int top) {
+        this.top = top;
+    }
+
+    public int getBottom() {
+        return bottom;
+    }
+
+    public void setBottom(int bottom) {
+        this.bottom = bottom;
     }
 
     public int getSeatWidth() {
@@ -547,9 +555,5 @@ public class SeatPosition {
 
     public void setSeatHeight(int seatHeight) {
         this.seatHeight = seatHeight;
-    }
-
-    public int[][] getSeatsPosition() {
-        return seatsPosition;
     }
 }

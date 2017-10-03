@@ -84,16 +84,26 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
                         return;
                     }
 
-                    SeatPosition seatPosition = new SeatPosition(mRelativeLayout.getWidth(), mRelativeLayout.getHeight(), countSeat);
+                    SeatPosition seatPosition = SeatPosition.getInstance(Bus.this, mRelativeLayout.getWidth(), mRelativeLayout.getHeight(), countSeat);
 
                     drawBus(
                             seatPosition.getSeatsPosition(),
-                            seatPosition.getSeatLeftMargin(),
-                            seatPosition.getSeatTopmargin(),
-                            seatPosition.getSeatBottommargin(),
+                            seatPosition.getLeft(),
+                            seatPosition.getTop(),
+                            seatPosition.getBottom(),
                             seatPosition.getSeatWidth(),
                             seatPosition.getSeatHeight()
                     );
+
+                    List<Seat> additionalSeats = seatPosition.getAdditionalSeats();
+
+                    for (Seat seat : additionalSeats) {
+                        mRelativeLayout.addView(seat);
+                        seat.setListener(Bus.this);
+                        if (seat.getText().equals("1") || seat.getText().equals("2")) {
+                            seat.setSeatColor(ContextCompat.getColor(Bus.this, R.color.seat_color_yellow));
+                        }
+                    }
                 }
             },
             10
@@ -127,94 +137,6 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
         seat.invalidate();
     }
 
-    public void drawSmallBusSeats(SeatPosition seatPosition) {
-//        layoutWidth: 764
-//        layoutHeight: 960
-//        seatWidth: 110
-//        seatHeight: 80
-
-//        marginTop : 470
-//        marginLeft : 80
-//        marginBottom : 34
-
-//        float rw = 764;
-//        float rh = 960;
-//
-//        float ratioLeft = 80 / rw;
-//        float ratioTop = 470 / rh;
-//        float ratioBottom = 34 / rh;
-//        float ratioSeatWidth = 110 / rw;
-//        float ratioSeatHeight = 80 / rh;
-
-        drawBus(
-                seatPosition.getSeatsPosition(),
-                seatPosition.getSeatLeftMargin(),
-                seatPosition.getSeatTopmargin(),
-                seatPosition.getSeatBottommargin(),
-                seatPosition.getSeatWidth(),
-                seatPosition.getSeatHeight()
-        );
-    }
-
-    public void drawMediumBusSeats(SeatPosition seatPosition) {
-//        layoutWidth: 764
-//        layoutHeight: 1200
-//        seatWidth: 108
-//        seatHeight: 76
-
-//        marginTop : 468
-//        marginLeft : 80
-//        marginBottom : 50
-
-//        float rw = 764;
-//        float rh = 1200;
-//
-//        float ratioLeft = 80 / rw;
-//        float ratioTop = 490 / rh;
-//        float ratioBottom = 50 / rh;
-//        float ratioSeatWidth = 108 / rw;
-//        float ratioSeatHeight = 76 / rh;
-
-        drawBus(
-                seatPosition.getSeatsPosition(),
-                seatPosition.getSeatLeftMargin(),
-                seatPosition.getSeatTopmargin(),
-                seatPosition.getSeatBottommargin(),
-                seatPosition.getSeatWidth(),
-                seatPosition.getSeatHeight()
-        );
-    }
-
-    public void drawBigBusSeats(SeatPosition seatPosition) {
-//        layoutWidth: 764
-//        layoutHeight: 1440
-//        seatWidth: 106
-//        seatHeight: 80
-
-//        marginTop : 332
-
-//        marginLeft : 74
-//        marginBottom : 30
-
-//        float rw = 764;
-//        float rh = 1440;
-//
-//        float ratioLeft = 74 / rw;
-//        float ratioTop = 332 / rh;
-//        float ratioBottom = 30 / rh;
-//        float ratioSeatWidth = 106 / rw;
-//        float ratioSeatHeight = 80 / rh;
-
-        drawBus(
-            seatPosition.getSeatsPosition(),
-            seatPosition.getSeatLeftMargin(),
-            seatPosition.getSeatTopmargin(),
-            seatPosition.getSeatBottommargin(),
-            seatPosition.getSeatWidth(),
-            seatPosition.getSeatHeight()
-        );
-    }
-
     public void drawBus(int array[][], int seatLeftMargin, int seatTopmargin, int seatBottommargin, int seatWidth, int seatHeight) {
         int noSeatPerRow = array[0].length;
         int noSeatPerCol = array.length;
@@ -245,7 +167,11 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
                     seat.setListener(Bus.this);
                     seat.setSeatColor(ContextCompat.getColor(Bus.this, R.color.seat_color_green));
 
-                    if (temp < countPassenger) {
+                    if (seat.getText().equals("1") || seat.getText().equals("2")) {
+                        seat.setSeatColor(ContextCompat.getColor(Bus.this, R.color.seat_color_yellow));
+                    }
+
+                    if (temp < countPassenger && (seat.getSeatColor() != ContextCompat.getColor(Bus.this, R.color.seat_color_yellow))) {
                         seat.setSelected(true);
                         temp++;
                         selectedSeats.add(seat);
