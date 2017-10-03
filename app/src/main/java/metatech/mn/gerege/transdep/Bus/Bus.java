@@ -38,6 +38,7 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
     private RelativeLayout mRelativeLayout;
 
     private List<Integer> availSeats;
+    private List<Integer> seatAutoSelect;
     private List<Seat> selectedSeats;
     private int countPassenger;
     private int countSeat;
@@ -58,6 +59,7 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
         countPassenger = bundle.getInt(Bus.BUS_PASSENGER);
         countSeat = bundle.getInt(Bus.BUS_SEAT_COUNT);
         selectedSeats = new ArrayList<>();
+        seatAutoSelect = seatAutoSelect(availSeats, countPassenger);
 
         mRelativeLayout = (RelativeLayout) findViewById(R.id.root_bus);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
@@ -86,7 +88,11 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
 
                     SeatPosition seatPosition = SeatPosition.getInstance(Bus.this, mRelativeLayout.getWidth(), mRelativeLayout.getHeight(), countSeat);
 
-                    drawBus(
+                    if (seatPosition == null) {
+                        return;
+                    }
+
+                    drawSeats(
                             seatPosition.getSeatsPosition(),
                             seatPosition.getLeft(),
                             seatPosition.getTop(),
@@ -95,23 +101,13 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
                             seatPosition.getSeatHeight()
                     );
 
-                    List<Seat> additionalSeats = seatPosition.getAdditionalSeats();
-
-                    for (Seat seat : additionalSeats) {
-                        mRelativeLayout.addView(seat);
-                        seat.setListener(Bus.this);
-                        if (seat.getText().equals("1") || seat.getText().equals("2")) {
-                            seat.setSeatColor(ContextCompat.getColor(Bus.this, R.color.seat_color_yellow));
-                        }
-                    }
+                    drawAdditionalSeats(seatPosition.getAdditionalSeats());
                 }
             },
             10
         );
 
     }
-
-
 
     @Override
     public void seatCicked(Seat seat) {
@@ -137,14 +133,20 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
         seat.invalidate();
     }
 
-    public void drawBus(int array[][], int seatLeftMargin, int seatTopmargin, int seatBottommargin, int seatWidth, int seatHeight) {
+    @Override
+    public void onClick(View v) {
+        if (floatingActionButton == v) {
+            Toast.makeText(Bus.this, "Clicked" + "", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void drawSeats(int array[][], int seatLeftMargin, int seatTopmargin, int seatBottommargin, int seatWidth, int seatHeight) {
         int noSeatPerRow = array[0].length;
         int noSeatPerCol = array.length;
 
         int widthBetweenSeat = (mRelativeLayout.getWidth() - seatLeftMargin * 2 - (seatWidth * noSeatPerRow)) / (noSeatPerRow - 1);
         int heightBetweenSeat = (mRelativeLayout.getHeight() - seatTopmargin - seatBottommargin - (seatHeight * noSeatPerCol)) / (noSeatPerCol - 1);
 
-        int temp = 0;
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
                 if (array[i][j] == -1)
@@ -171,9 +173,8 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
                         seat.setSeatColor(ContextCompat.getColor(Bus.this, R.color.seat_color_yellow));
                     }
 
-                    if (temp < countPassenger && (seat.getSeatColor() != ContextCompat.getColor(Bus.this, R.color.seat_color_yellow))) {
+                    if (seatAutoSelect.contains(array[i][j])) {
                         seat.setSelected(true);
-                        temp++;
                         selectedSeats.add(seat);
                     }
                 }
@@ -185,10 +186,46 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        if (floatingActionButton == v) {
-            Toast.makeText(Bus.this, "Clicked" + "", Toast.LENGTH_SHORT).show();
+    public void drawAdditionalSeats(List<Seat> additionalSeats) {
+        if (additionalSeats != null) {
+            for (Seat seat : additionalSeats) {
+                mRelativeLayout.addView(seat);
+                if (availSeats.contains(Integer.parseInt(seat.getText()))) {
+                    seat.setListener(Bus.this);
+                    seat.setSeatColor(ContextCompat.getColor(Bus.this, R.color.seat_color_green));
+
+                    if (seat.getText().equals("1") || seat.getText().equals("2")) {
+                        seat.setSeatColor(ContextCompat.getColor(Bus.this, R.color.seat_color_yellow));
+                    }
+
+                    if (seatAutoSelect.contains(Integer.parseInt(seat.getText()))) {
+                        seat.setSelected(true);
+                        selectedSeats.add(seat);
+                    }
+                }
+            }
+            if (selectedSeats.size() == countPassenger && selectedSeats.size() != 0) {
+                floatingActionButton.show();
+            }
         }
+    }
+
+    public List<Integer> seatAutoSelect(List<Integer> availSeats, int x) {
+        List<Integer> list = new ArrayList<>();
+        for (int seatNo : availSeats) {
+            if (seatNo != 1 && seatNo != 2)
+                list.add(seatNo);
+
+            if (list.size() == x)
+                break;
+        }
+
+        if (list.size() != x) {
+            list.add(2);
+            if (list.size() != x)
+                list.add(1);
+        }
+
+        return list;
     }
 }

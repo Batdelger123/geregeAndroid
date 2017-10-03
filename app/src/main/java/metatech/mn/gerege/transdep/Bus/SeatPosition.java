@@ -2,6 +2,7 @@ package metatech.mn.gerege.transdep.Bus;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ public class SeatPosition {
         float rh = 0;
 
         SeatPosition seatPosition = new SeatPosition();
+        Seat seat;
 
         switch (seatCount) {
 
@@ -48,7 +50,7 @@ public class SeatPosition {
                 };
 
                 seatPosition.additionalSeats = new ArrayList<>();
-                Seat seat = new Seat(context);
+                seat = new Seat(context);
                 seat.setText("1");
                 seat.setSizePostion(
                         (int) (parentWidth * (557 / rw)),
@@ -117,6 +119,47 @@ public class SeatPosition {
                         {19, 20, 21},
                         {22, 23, 24}
                 };
+
+                seatPosition.additionalSeats = new ArrayList<>();
+                seat = new Seat(context);
+                seat.setText("1");   // 1
+                seat.setSizePostion(
+                        (int) (parentWidth * (508 / rw)),
+                        (int) (parentHeight * (135 / rh)),
+                        seatPosition.seatWidth,
+                        seatPosition.seatHeight
+                );
+                seatPosition.additionalSeats.add(seat);
+
+                seat = new Seat(context);
+                seat.setText("2");   // 2
+                seat.setSizePostion(
+                        (int) (parentWidth * (149 / rw)),
+                        (int) (parentHeight * (350 / rh)),
+                        seatPosition.seatWidth,
+                        seatPosition.seatHeight
+                );
+                seatPosition.additionalSeats.add(seat);
+
+                seat = new Seat(context);
+                seat.setText("3");   // 3
+                seat.setSizePostion(
+                        (int) (parentWidth * (328 / rw)),
+                        (int) (parentHeight * (350 / rh)),
+                        seatPosition.seatWidth,
+                        seatPosition.seatHeight
+                );
+                seatPosition.additionalSeats.add(seat);
+
+                seat = new Seat(context);
+                seat.setText("4");   // 4
+                seat.setSizePostion(
+                        (int) (parentWidth * (508 / rw)),
+                        (int) (parentHeight * (350 / rh)),
+                        seatPosition.seatWidth,
+                        seatPosition.seatHeight
+                );
+                seatPosition.additionalSeats.add(seat);
                 return seatPosition;
 
             case 25:
@@ -138,6 +181,18 @@ public class SeatPosition {
                         {18, 19, 20, 21},
                         {22, 23, 24, 25}
                 };
+
+                seatPosition.additionalSeats = new ArrayList<>();
+                seat = new Seat(context);
+                seat.setText("1");   // 1
+                seat.setSizePostion(
+                        (int) (parentWidth * (558 / rw)),
+                        (int) (parentHeight * (350 / rh)),
+                        seatPosition.seatWidth,
+                        seatPosition.seatHeight
+                );
+                seatPosition.additionalSeats.add(seat);
+
                 return seatPosition;
 
             case 26:
@@ -159,6 +214,18 @@ public class SeatPosition {
                         {19, 20, 21, 22},
                         {23, 24, 25, 26}
                 };
+
+                seatPosition.additionalSeats = new ArrayList<>();
+                seat = new Seat(context);
+                seat.setText("1");   // 1
+                seat.setSizePostion(
+                        (int) (parentWidth * (558 / rw)),
+                        (int) (parentHeight * (330 / rh)),
+                        seatPosition.seatWidth,
+                        seatPosition.seatHeight
+                );
+                seatPosition.additionalSeats.add(seat);
+
                 return seatPosition;
 
             case 28:
@@ -180,6 +247,18 @@ public class SeatPosition {
                         {20, 21, -1, 22, 23},
                         {24, 25, 26, 27, 28}
                 };
+
+                seatPosition.additionalSeats = new ArrayList<>();
+                seat = new Seat(context);
+                seat.setText("1");   // 1
+                seat.setSizePostion(
+                        (int) (parentWidth * (576 / rw)),
+                        (int) (parentHeight * (330 / rh)),
+                        seatPosition.seatWidth,
+                        seatPosition.seatHeight
+                );
+                seatPosition.additionalSeats.add(seat);
+
                 return seatPosition;
 
             case 29:
@@ -201,6 +280,28 @@ public class SeatPosition {
                         {21, 22, -1, 23, 24},
                         {25, 26, 27, 28, 29}
                 };
+
+                seatPosition.additionalSeats = new ArrayList<>();
+                seat = new Seat(context);
+                seat.setText("1");   // 1
+                seat.setSizePostion(
+                        (int) (parentWidth * (452 / rw)),
+                        (int) (parentHeight * (330 / rh)),
+                        seatPosition.seatWidth,
+                        seatPosition.seatHeight
+                );
+                seatPosition.additionalSeats.add(seat);
+
+                seat = new Seat(context);
+                seat.setText("2");   // 1
+                seat.setSizePostion(
+                        (int) (parentWidth * (576 / rw)),
+                        (int) (parentHeight * (330 / rh)),
+                        seatPosition.seatWidth,
+                        seatPosition.seatHeight
+                );
+                seatPosition.additionalSeats.add(seat);
+
                 return seatPosition;
             case 34:
                 rw = 764;
@@ -223,6 +324,18 @@ public class SeatPosition {
                         {26, 27, -1, 28, 29},
                         {30, 31, 32, 33, 34}
                 };
+
+                seatPosition.additionalSeats = new ArrayList<>();
+                seat = new Seat(context);
+                seat.setText("1");   // 1
+                seat.setSizePostion(
+                        (int) (parentWidth * (576 / rw)),
+                        (int) (parentHeight * (330 / rh)),
+                        seatPosition.seatWidth,
+                        seatPosition.seatHeight
+                );
+                seatPosition.additionalSeats.add(seat);
+
                 return seatPosition;
 
             case 35:
@@ -246,6 +359,7 @@ public class SeatPosition {
                         {29, 30, -1, -1, -1},
                         {31, 32, 33, 34, 35}
                 };
+
                 return seatPosition;
 
             case 36:
@@ -259,7 +373,6 @@ public class SeatPosition {
                 seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
 
                 seatPosition.position = new int[][]{
-                        //{19, 20, 21, 22, 23}
                         {1, 2, -1, -1, -1},
                         {3, 4, -1, 5, 6},
                         {7, 8, -1, 9, 10},
@@ -269,6 +382,23 @@ public class SeatPosition {
                         {28, 29, -1, 30, 31},
                         {32, 33, 34, 35, 36}
                 };
+
+                seatPosition.additionalSeats = new ArrayList<>();
+                int space = (parentWidth - (2 * seatPosition.left ) - (5 * seatPosition.seatWidth)) / 4;
+
+                for (int i = 0; i < 5; i++) {
+                    seat = new Seat(context);
+                    seat.setText(String.valueOf(i + 19));   // 19 - 23
+                    Log.d("qqweqweqwe", "" + (parentWidth));
+                    seat.setSizePostion(
+                            seatPosition.left + i * (seatPosition.seatWidth + space),
+                            (int) (parentHeight * (330 / rh)),
+                            seatPosition.seatWidth,
+                            seatPosition.seatHeight
+                    );
+                    seatPosition.additionalSeats.add(seat);
+                }
+
                 return seatPosition;
 
             case 38:
