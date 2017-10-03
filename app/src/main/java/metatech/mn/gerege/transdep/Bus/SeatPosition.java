@@ -53,8 +53,8 @@ public class SeatPosition {
                 seat = new Seat(context);
                 seat.setText("1");
                 seat.setSizePostion(
-                        (int) (parentWidth * (557 / rw)),
-                        (int) (parentHeight * (140 / rh)),
+                        (int) (parentWidth * (548 / rw)),
+                        (int) (parentHeight * (139 / rh)),
                         seatPosition.seatWidth,
                         seatPosition.seatHeight
                 );
@@ -70,7 +70,7 @@ public class SeatPosition {
 
                 seatPosition.left = (int) (parentWidth * (110 / rw));
                 seatPosition.top = (int) (parentHeight * (495 / rh));
-                seatPosition.bottom = (int) (parentHeight * (60 / rh));
+                seatPosition.bottom = (int) (parentHeight * (100 / rh));
                 seatPosition.seatWidth = (int) (parentWidth * (106 / rw));
                 seatPosition.seatHeight = (int) (parentHeight * (80 / rh));
 
@@ -79,6 +79,31 @@ public class SeatPosition {
                         {6, 7, 8},
                         {9, 10, 11}
                 };
+
+                seatPosition.additionalSeats = new ArrayList<>();
+                seat = new Seat(context);
+                seat.setText("1");
+                seat.setSizePostion(
+                        (int) (parentWidth * (326 / rw)),
+                        (int) (parentHeight * (139 / rh)),
+                        seatPosition.seatWidth,
+                        seatPosition.seatHeight
+                );
+
+                seatPosition.additionalSeats.add(seat);
+
+                seat = new Seat(context);
+                seat.setText("2");
+                seat.setSizePostion(
+                        (int) (parentWidth * (548 / rw)),
+                        (int) (parentHeight * (139 / rh)),
+                        seatPosition.seatWidth,
+                        seatPosition.seatHeight
+                );
+
+                seatPosition.additionalSeats.add(seat);
+
+
                 return seatPosition;
 
             case 14:
@@ -98,7 +123,32 @@ public class SeatPosition {
                         {9, 10, 11},
                         {12, 13, 14}
                 };
+
+                seatPosition.additionalSeats = new ArrayList<>();
+                seat = new Seat(context);
+                seat.setText("1");
+                seat.setSizePostion(
+                        (int) (parentWidth * (326 / rw)),
+                        (int) (parentHeight * (139 / rh)),
+                        seatPosition.seatWidth,
+                        seatPosition.seatHeight
+                );
+
+                seatPosition.additionalSeats.add(seat);
+
+                seat = new Seat(context);
+                seat.setText("2");
+                seat.setSizePostion(
+                        (int) (parentWidth * (548 / rw)),
+                        (int) (parentHeight * (139 / rh)),
+                        seatPosition.seatWidth,
+                        seatPosition.seatHeight
+                );
+
+                seatPosition.additionalSeats.add(seat);
+
                 return seatPosition;
+
 
             case 24:
                 rw = 764;
