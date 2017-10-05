@@ -23,6 +23,7 @@ import java.util.Map;
 import metatech.mn.gerege.database.Aimags;
 import metatech.mn.gerege.database.DBAimags;
 import metatech.mn.gerege.database.DBTariff;
+import metatech.mn.gerege.database.Tariff;
 import metatech.mn.gerege.transdep.DirectionView;
 
 /**
@@ -38,7 +39,6 @@ public class DBUpdate extends Activity {
         //initList();
         loadDataFromAssets();
         loadTariffDataFromAssets();
-        Log.d("Tariff", "end");
     }
 
     public void loadDataFromAssets () {
@@ -88,7 +88,44 @@ public class DBUpdate extends Activity {
                 for(int i = 0; i<jsonMainNode.length();i++){
                     JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
                  //   new DBAimags().addAimags(DBUpdate.this, jsonChildNode.optInt("ID"), jsonChildNode.optString("NAME"), jsonChildNode.optInt("BVS"), jsonChildNode.getInt("IS_COUNTRY"));
-                    new DBTariff().addTariff(DBUpdate.this, jsonChildNode.optInt("ID"), jsonChildNode.optInt("DIRECTION_ID"), jsonChildNode.optString("DIRECTION_NAME"), jsonChildNode.optInt("START_STOP_ID"), jsonChildNode.optString("START_STOP_NAME"), jsonChildNode.optInt("END_STOP_ID"),jsonChildNode.optString("END_STOP_NAME"), jsonChildNode.optInt("AIMAG_ID"), jsonChildNode.optInt("END_STOP_AIMAG_ID"), jsonChildNode.optInt("IS_CENTER"));
+                    new DBTariff().addTariff(
+                            DBUpdate.this,
+                            new Tariff(
+                                    jsonChildNode.getInt("ID"),
+                                    jsonChildNode.getInt("DIRECTION_ID"),
+                                    jsonChildNode.getString("DIRECTION_NAME"),
+                                    jsonChildNode.getInt("START_STOP_ID"),
+                                    jsonChildNode.getString("START_STOP_NAME"),
+                                    jsonChildNode.getInt("END_STOP_ID"),
+                                    jsonChildNode.getString("END_STOP_NAME"),
+                                    jsonChildNode.getInt("AIMAG_ID"),
+                                    jsonChildNode.getInt("END_STOP_AIMAG_ID"),
+                                    jsonChildNode.getInt("IS_CENTER"),
+                                    jsonChildNode.optInt("BIG_PRICE", 0),
+                                    jsonChildNode.optInt("BIG_CHILDPRICE", 0),
+                                    jsonChildNode.optInt("BIG_INSURANCE", 0),
+                                    jsonChildNode.optInt("BIG_CHILDINSURANCE", 0),
+                                    jsonChildNode.optInt("MID_PRICE", 0),
+                                    jsonChildNode.optInt("MID_CHILDPRICE", 0),
+                                    jsonChildNode.optInt("MID_INSURANCE", 0),
+                                    jsonChildNode.optInt("MID_CHILDINSURANCE", 0),
+                                    jsonChildNode.optInt("LIT_PRICE", 0),
+                                    jsonChildNode.optInt("LIT_CHILDPRICE", 0),
+                                    jsonChildNode.optInt("LIT_INSURANCE", 0),
+                                    jsonChildNode.optInt("LIT_CHILDINSURANCE", 0),
+                                    jsonChildNode.optInt("SIT_PRICE", 0),
+                                    jsonChildNode.optInt("SIT_CHILDPRICE", 0),
+                                    jsonChildNode.optInt("SIT_INSURANCE", 0),
+                                    jsonChildNode.optInt("SIT_CHILDINSURANCE", 0),
+                                    jsonChildNode.getInt("TICKET_TYPE_ID"),
+                                    jsonChildNode.optInt("START_STOP_SEQUENCE"),
+                                    jsonChildNode.optInt("END_STOP_SEQUENCE"),
+                                    jsonChildNode.getInt("BIG_PRICE_PERCENT"),
+                                    jsonChildNode.getInt("MID_PRICE_PERCENT"),
+                                    jsonChildNode.getInt("LIT_PRICE_PERCENT"),
+                                    jsonChildNode.getInt("SIT_PRICE_PERCENT")
+                            )
+                    );
                 }
             }
             catch(JSONException e){

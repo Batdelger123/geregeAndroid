@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 import metatech.mn.gerege.R;
+import metatech.mn.gerege.database.Tariff;
 import metatech.mn.gerege.transdep.Bus.Bus;
 import metatech.mn.gerege.transdep.RecyclerView.SingletonRequestQueue;
 import metatech.mn.gerege.transdep.RecyclerView.data.Dispatcher;
@@ -47,11 +48,15 @@ public class SearchDialog extends DialogFragment implements CustomAdapter.Custom
     private View view;
     private RecyclerView recyclerView;
     private List<Dispatcher> listItems;
-    private int noOfPassenger;
+    private Tariff tariff;
+    private int countTicket;
+    private int countChildTicket;
 
-    public SearchDialog(List<Dispatcher> listItems, int ticket) {
+    public SearchDialog(Tariff tariff, List<Dispatcher> listItems, int ticket, int ticketChild) {
+        this.tariff = tariff;
         this.listItems = listItems;
-        this.noOfPassenger = ticket;
+        this.countTicket = ticket;
+        this.countChildTicket = ticketChild;
     }
 
     @Nullable
@@ -94,10 +99,12 @@ public class SearchDialog extends DialogFragment implements CustomAdapter.Custom
                             }
 
                             Intent intent = new Intent(getActivity(), Bus.class);
+                            intent.putExtra(Bus.BUS_TARIFF, tariff);
+                            intent.putExtra(Bus.BUS_DISPATCHER, listItems.get(position));
                             intent.putExtra(Bus.BUS_SEAT_COUNT, listItems.get(position).getSeatCount());
                             intent.putExtra(Bus.BUS_AVAIL_SEATS, availSeats);
-                            intent.putExtra(Bus.BUS_PASSENGER, noOfPassenger);
-                            intent.putExtra(Bus.BUS_DISPATCHER, listItems.get(position));
+                            intent.putExtra(Bus.BUS_PASSENGER, countTicket);
+                            intent.putExtra(Bus.BUS_PASSENGER_CHILD, countChildTicket);
 
                             startActivity(intent);
 

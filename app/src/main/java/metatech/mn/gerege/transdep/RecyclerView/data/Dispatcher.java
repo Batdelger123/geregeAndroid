@@ -14,27 +14,31 @@ public class Dispatcher implements Serializable{
     private int endStopId;
     private int carTypeId;
     private int seatCount;
+    private int companyId;
     private String directionName;
     private String startStopName;
     private String endStopName;
     private String carTypeName;
     private String leaveDate;
+    private String companyName;
 
     public Dispatcher() {
     }
 
-    public Dispatcher(int id, int directionId, int startStopId, int endStopId, int carTypeId, int sitCount, String directionName, String startStopName, String endStopName, String carTypeName, String leaveDate) {
+    public Dispatcher(int id, int directionId, int startStopId, int endStopId, int carTypeId, int seatCount, int companyId, String directionName, String startStopName, String endStopName, String carTypeName, String leaveDate, String companyName) {
         this.id = id;
         this.directionId = directionId;
         this.startStopId = startStopId;
         this.endStopId = endStopId;
         this.carTypeId = carTypeId;
-        this.seatCount = sitCount;
+        this.seatCount = seatCount;
+        this.companyId = companyId;
         this.directionName = directionName;
         this.startStopName = startStopName;
         this.endStopName = endStopName;
         this.carTypeName = carTypeName;
         this.leaveDate = leaveDate;
+        this.companyName = companyName;
     }
 
     public int getId() {
@@ -123,5 +127,21 @@ public class Dispatcher implements Serializable{
 
     public void setLeaveDate(String leaveDate) {
         this.leaveDate = leaveDate;
+    }
+
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

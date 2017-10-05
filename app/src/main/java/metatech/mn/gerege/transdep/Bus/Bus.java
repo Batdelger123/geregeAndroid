@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import metatech.mn.gerege.R;
+import metatech.mn.gerege.database.Tariff;
 import metatech.mn.gerege.transdep.RecyclerView.data.Dispatcher;
 
 public class Bus extends AppCompatActivity implements Seat.SeatListener, View.OnClickListener {
@@ -30,21 +31,25 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
     public static int BUS_BIG = 1;
     public static int BUS_MEDIUM = 2;
     public static int BUS_SMALL = 3;
+    public static String BUS_TARIFF = "tariff";
+    public static String BUS_DISPATCHER = "dispatcher";
     public static String BUS_SEAT_COUNT = "countSeat";
     public static String BUS_AVAIL_SEATS = "availSeats";
-    public static String BUS_DISPATCHER = "dispatcher";
     public static String BUS_PASSENGER = "noOfPassenger";
+    public static String BUS_PASSENGER_CHILD = "noOfChildPassenger";
 
     private RelativeLayout mRelativeLayout;
+    private FloatingActionButton floatingActionButton;
 
+    private Tariff tariff;
+    private Dispatcher dispatcher;
     private List<Integer> availSeats;
     private List<Integer> seatAutoSelect;
     private List<Seat> selectedSeats;
     private int countPassenger;
-    private int countSeat;
-    private Dispatcher dispatcher;
+    private int countChildPassenger;
 
-    private FloatingActionButton floatingActionButton;
+    private int countSeat;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -55,11 +60,13 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
         Bundle bundle = intent.getExtras();
 
         dispatcher = (Dispatcher) bundle.getSerializable(Bus.BUS_DISPATCHER);
+        tariff = (Tariff) bundle.getSerializable(Bus.BUS_TARIFF);
         availSeats = bundle.getIntegerArrayList(Bus.BUS_AVAIL_SEATS);
         countPassenger = bundle.getInt(Bus.BUS_PASSENGER);
+        countChildPassenger = bundle.getInt(Bus.BUS_PASSENGER_CHILD);
         countSeat = bundle.getInt(Bus.BUS_SEAT_COUNT);
         selectedSeats = new ArrayList<>();
-        seatAutoSelect = seatAutoSelect(availSeats, countPassenger);
+        seatAutoSelect = seatAutoSelect(availSeats, (countPassenger + countChildPassenger));
 
         mRelativeLayout = (RelativeLayout) findViewById(R.id.root_bus);
         floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
@@ -116,17 +123,17 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
             selectedSeats.remove(seat);
             floatingActionButton.hide();
         } else {                        // suudal songoh
-            if (selectedSeats.size() == countPassenger) {
+            if (selectedSeats.size() == (countPassenger + countChildPassenger)) {
                 selectedSeats.get(0).setSelected(false);
                 selectedSeats.remove(0).invalidate();
                 selectedSeats.add(seat);
                 seat.setSelected(true);
             }
-            if (selectedSeats.size() < countPassenger) {
+            if (selectedSeats.size() < (countPassenger + countChildPassenger)) {
                 seat.setSelected(true);
                 selectedSeats.add(seat);
             }
-            if (selectedSeats.size() == countPassenger && selectedSeats.size() != 0) {
+            if (selectedSeats.size() == (countPassenger + countChildPassenger) && selectedSeats.size() != 0) {
                 floatingActionButton.show();
             }
         }
@@ -181,7 +188,7 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
             }
         }
 
-        if (selectedSeats.size() == countPassenger && selectedSeats.size() != 0) {
+        if (selectedSeats.size() == (countPassenger + countChildPassenger) && selectedSeats.size() != 0) {
             floatingActionButton.show();
         }
     }
@@ -204,7 +211,7 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
                     }
                 }
             }
-            if (selectedSeats.size() == countPassenger && selectedSeats.size() != 0) {
+            if (selectedSeats.size() == (countPassenger + countChildPassenger) && selectedSeats.size() != 0) {
                 floatingActionButton.show();
             }
         }

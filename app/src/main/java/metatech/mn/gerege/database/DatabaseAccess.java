@@ -14,11 +14,11 @@ import java.util.List;
  * Created by Coder-Erdenebayar on 6/8/2017.
  */
 
-public class DatabaseAccess  {
+public class DatabaseAccess {
     private SQLiteOpenHelper openHelper;
     private SQLiteDatabase database;
     private static DatabaseAccess instance;
-    private String USERTABLE  = "user";
+    private String USERTABLE = "user";
     private String PASSENGERTYPETABLE = "passenger_type";
     public static final String AIMAGSTABLE = "aimags";
     private String STOPSTABLE = "stops";
@@ -53,10 +53,35 @@ public class DatabaseAccess  {
     public static final String AIMAG_ID = "aimag_id";
     public static final String ISCENTER = "iscenter";
     public static final String END_STOP_AIMAG_ID = "end_stop_aimag_id";
+    public static final String TARIFF_BIG_PRICE = "big_price";
+    public static final String TARIFF_BIG_CHILD_PRICE = "big_child_price";
+    public static final String TARIFF_BIG_INSURANCE = "big_insurance";
+    public static final String TARIFF_BIG_CHILD_INSURANCE = "big_child_insurance";
+    public static final String TARIFF_MID_PRICE = "mid_price";
+    public static final String TARIFF_MID_CHILD_PRICE = "mid_child_price";
+    public static final String TARIFF_MID_INSURANCE = "mid_insurance";
+    public static final String TARIFF_MID_CHILD_INSURANCE = "mid_child_insurance";
+    public static final String TARIFF_LIT_PRICE = "lit_price";
+    public static final String TARIFF_LIT_CHILD_PRICE = "lit_child_price";
+    public static final String TARIFF_LIT_INSURANCE = "lit_insurance";
+    public static final String TARIFF_LIT_CHILD_INSURANCE = "lit_child_insurance";
+    public static final String TARIFF_SIT_PRICE = "sit_price";
+    public static final String TARIFF_SIT_CHILD_PRICE = "sit_child_price";
+    public static final String TARIFF_SIT_INSURANCE = "sit_insurance";
+    public static final String TARIFF_SIT_CHILD_INSURANCE = "sit_child_insurance";
+    public static final String TARIFF_TICKET_TYPE_ID = "ticket_type_id";
+    public static final String TARIFF_START_STOP_SEQUENCE = "start_stop_sequence";
+    public static final String TARIFF_END_STOP_SEQUENCE = "end_stop_sequence";
+    public static final String TARIFF_BIG_PRICE_PERCENT = "big_price_percent";
+    public static final String TARIFF_MID_PRICE_PERCENT = "mid_price_percent";
+    public static final String TARIFF_LIT_PRICE_PERCENT = "lit_price_percent";
+    public static final String TARIFF_SIT_PRICE_PERCENT = "sit_price_percent";
+
 
     private DatabaseAccess(Context context) {
         this.openHelper = new DatabaseOpenHelper(context);
     }
+
     /**
      * Return a singleton instance of DatabaseAccess.
      *
@@ -116,13 +141,12 @@ public class DatabaseAccess  {
 
     public boolean checkUser(User user) {
 
-        Cursor res = database.rawQuery("SELECT * FROM "+USERTABLE+" WHERE "+USER_USERCODE+" = ? AND "+USER_PASSWORD+" = ?", new String[] {user.getUserid(), user.getPin()});
+        Cursor res = database.rawQuery("SELECT * FROM " + USERTABLE + " WHERE " + USER_USERCODE + " = ? AND " + USER_PASSWORD + " = ?", new String[]{user.getUserid(), user.getPin()});
         if (res.getCount() > 0) {
             res.moveToFirst();
             res.close();
             return true;
-        }
-        else{
+        } else {
             res.close();
             return false;
         }
@@ -130,7 +154,7 @@ public class DatabaseAccess  {
 
     public List<User> getUsers() {
         List<User> userList = new ArrayList<User>();
-        Cursor cursor = database.rawQuery("SELECT * FROM "+USERTABLE, null);
+        Cursor cursor = database.rawQuery("SELECT * FROM " + USERTABLE, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             User users = new User();
@@ -147,11 +171,11 @@ public class DatabaseAccess  {
     }
 
     public User getUser() {
-        Cursor cursor = database.rawQuery( "SELECT * FROM "+USERTABLE, null);
+        Cursor cursor = database.rawQuery("SELECT * FROM " + USERTABLE, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            if(cursor.getInt(3) == 1) {
-                User user1 = new User(cursor.getString(0),cursor.getString(1),cursor.getString(2),Boolean.getBoolean(cursor.getString(3)));
+            if (cursor.getInt(3) == 1) {
+                User user1 = new User(cursor.getString(0), cursor.getString(1), cursor.getString(2), Boolean.getBoolean(cursor.getString(3)));
                 return user1;
             }
             cursor.moveToNext();
@@ -179,7 +203,7 @@ public class DatabaseAccess  {
     //get all passengerType
     public List<PassengerType> getPassengerType() {
         List<PassengerType> passengerTypesList = new ArrayList<PassengerType>();
-        Cursor cursor = database.rawQuery("SELECT * FROM "+PASSENGERTYPETABLE, null);
+        Cursor cursor = database.rawQuery("SELECT * FROM " + PASSENGERTYPETABLE, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             PassengerType passengerType = new PassengerType();
@@ -210,7 +234,7 @@ public class DatabaseAccess  {
     public List<Aimags> getAimags() {
 
         List<Aimags> aimagsList = new ArrayList<Aimags>();
-        Cursor cursor = database.rawQuery("SELECT * FROM "+AIMAGSTABLE + " WHERE " + ISCOUNTRY + "==1"+" AND "+BVS+"<4", null);
+        Cursor cursor = database.rawQuery("SELECT * FROM " + AIMAGSTABLE + " WHERE " + ISCOUNTRY + "==1" + " AND " + BVS + "<4", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Aimags aimags = new Aimags();
@@ -228,7 +252,7 @@ public class DatabaseAccess  {
     public List<Aimags> getEndAimags(String query, String[] args) {
 
         List<Aimags> aimagsList = new ArrayList<Aimags>();
-        Cursor cursor = database.rawQuery("SELECT * FROM "+AIMAGSTABLE + " WHERE " + ISCOUNTRY + "==1"+" AND "+BVS+"<4", null);
+        Cursor cursor = database.rawQuery("SELECT * FROM " + AIMAGSTABLE + " WHERE " + ISCOUNTRY + "==1" + " AND " + BVS + "<4", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Aimags aimags = new Aimags();
@@ -247,7 +271,7 @@ public class DatabaseAccess  {
     public List<Aimags> getCity() {
 
         List<Aimags> cityList = new ArrayList<Aimags>();
-        Cursor cursor = database.rawQuery("SELECT * FROM "+AIMAGSTABLE+ " WHERE "+ISCOUNTRY+"==0", null);
+        Cursor cursor = database.rawQuery("SELECT * FROM " + AIMAGSTABLE + " WHERE " + ISCOUNTRY + "==0", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Aimags aimags = new Aimags();
@@ -263,10 +287,10 @@ public class DatabaseAccess  {
     }
 
     // Get ForiegnCountry
-    public List<Aimags>  getForiegnCountry() {
+    public List<Aimags> getForiegnCountry() {
 
         List<Aimags> aimagsList = new ArrayList<Aimags>();
-        Cursor cursor = database.rawQuery("SELECT * FROM "+AIMAGSTABLE+" WHERE "+BVS+">=4 AND "+ISCOUNTRY+"==1", null);
+        Cursor cursor = database.rawQuery("SELECT * FROM " + AIMAGSTABLE + " WHERE " + BVS + ">=4 AND " + ISCOUNTRY + "==1", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Aimags aimags = new Aimags();
@@ -280,6 +304,7 @@ public class DatabaseAccess  {
         cursor.close();
         return aimagsList;
     }
+
     //delete all aimags
     public void deleteAllAimags() {
         database.delete(AIMAGSTABLE, null, null);
@@ -301,7 +326,7 @@ public class DatabaseAccess  {
     public List<Stops> getStops(int aimag_id) {
 
         List<Stops> stopsList = new ArrayList<Stops>();
-        Cursor cursor = database.rawQuery("SELECT * FROM "+STOPSTABLE+ " WHERE "+AIMAG_ID+"=="+aimag_id, null);
+        Cursor cursor = database.rawQuery("SELECT * FROM " + STOPSTABLE + " WHERE " + AIMAG_ID + "==" + aimag_id, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Stops stops = new Stops();
@@ -332,8 +357,29 @@ public class DatabaseAccess  {
         values.put(END_STOP_NAME, tariff.getEnd_stop_name());
         values.put(AIMAG_ID, tariff.getAimag_id());
         values.put(END_STOP_AIMAG_ID, tariff.getEnd_aimag_id());
-        values.put(ISCENTER, tariff.getIscenter());
-
+        values.put(TARIFF_BIG_PRICE, tariff.getBigPrice());
+        values.put(TARIFF_BIG_CHILD_PRICE, tariff.getBigChildPrice());
+        values.put(TARIFF_BIG_INSURANCE, tariff.getBigInsurance());
+        values.put(TARIFF_BIG_CHILD_INSURANCE, tariff.getBigChildInsurance());
+        values.put(TARIFF_MID_PRICE, tariff.getMidPrice());
+        values.put(TARIFF_MID_CHILD_PRICE, tariff.getMidChildPrice());
+        values.put(TARIFF_MID_INSURANCE, tariff.getMidInsurance());
+        values.put(TARIFF_MID_CHILD_INSURANCE, tariff.getMidChildInsurance());
+        values.put(TARIFF_LIT_PRICE, tariff.getLitPrice());
+        values.put(TARIFF_LIT_CHILD_PRICE, tariff.getLitChildPrice());
+        values.put(TARIFF_LIT_INSURANCE, tariff.getLitInsurance());
+        values.put(TARIFF_LIT_CHILD_INSURANCE, tariff.getLitChildInsurance());
+        values.put(TARIFF_SIT_PRICE, tariff.getSitPrice());
+        values.put(TARIFF_SIT_CHILD_PRICE, tariff.getSitChildPrice());
+        values.put(TARIFF_SIT_INSURANCE, tariff.getSitInsurance());
+        values.put(TARIFF_SIT_CHILD_INSURANCE, tariff.getSitChildInsurance());
+        values.put(TARIFF_TICKET_TYPE_ID, tariff.getTicketTypeId());
+        values.put(TARIFF_START_STOP_SEQUENCE, tariff.getStartStopSequence());
+        values.put(TARIFF_END_STOP_SEQUENCE, tariff.getEndStopSequence());
+        values.put(TARIFF_BIG_PRICE_PERCENT, tariff.getBigPricePercent());
+        values.put(TARIFF_MID_PRICE_PERCENT, tariff.getMidPricePercent());
+        values.put(TARIFF_LIT_PRICE_PERCENT, tariff.getLitPricePercent());
+        values.put(TARIFF_SIT_PRICE_PERCENT, tariff.getSitPricePercent());
         // Inserting Row
         database.insert(TARIFFTABLE, null, values);
     }
@@ -342,7 +388,7 @@ public class DatabaseAccess  {
     public List<Tariff> getTariff() {
 //TODO getTariff
         List<Tariff> stopsList = new ArrayList<Tariff>();
-        Cursor cursor = database.rawQuery("SELECT * FROM "+STOPSTABLE+ " WHERE "+AIMAG_ID+"==", null);
+        Cursor cursor = database.rawQuery("SELECT * FROM " + STOPSTABLE + " WHERE " + AIMAG_ID + "==", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Stops stops = new Stops();
@@ -379,13 +425,47 @@ public class DatabaseAccess  {
     }
 
     // start_stop  set
-    public List<Tariff> getStartStopTariffs (Integer aimagId) {
+    public List<Tariff> getStartStopTariffs(Integer aimagId) {
         List<Tariff> stopsList = new ArrayList<Tariff>();
-        Cursor cursor = database.rawQuery("SELECT * FROM "+TARIFFTABLE+ " GROUP BY start_stop_id HAVING " + AIMAG_ID + "= ? ", new String[]{ String.valueOf(aimagId)});
+        Cursor cursor = database.rawQuery("SELECT * FROM " + TARIFFTABLE + " GROUP BY start_stop_id HAVING " + AIMAG_ID + "= ? ", new String[]{String.valueOf(aimagId)});
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Tariff tariff = new Tariff(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4), cursor.getInt(5), cursor.getString(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9));
+            Tariff tariff = new Tariff(
+                    cursor.getInt(0),
+                    cursor.getInt(1),
+                    cursor.getString(2),
+                    cursor.getInt(3),
+                    cursor.getString(4),
+                    cursor.getInt(5),
+                    cursor.getString(6),
+                    cursor.getInt(7),
+                    cursor.getInt(8),
+                    cursor.getInt(9),
+                    cursor.getInt(10),
+                    cursor.getInt(11),
+                    cursor.getInt(12),
+                    cursor.getInt(13),
+                    cursor.getInt(14),
+                    cursor.getInt(15),
+                    cursor.getInt(16),
+                    cursor.getInt(17),
+                    cursor.getInt(18),
+                    cursor.getInt(19),
+                    cursor.getInt(20),
+                    cursor.getInt(21),
+                    cursor.getInt(22),
+                    cursor.getInt(23),
+                    cursor.getInt(24),
+                    cursor.getInt(25),
+                    cursor.getInt(26),
+                    cursor.getInt(27),
+                    cursor.getInt(28),
+                    cursor.getInt(29),
+                    cursor.getInt(30),
+                    cursor.getInt(31),
+                    cursor.getInt(32)
+            );
             stopsList.add(tariff);
             cursor.moveToNext();
         }
@@ -394,13 +474,47 @@ public class DatabaseAccess  {
     }
 
     // stop  set
-    public List<Tariff> getStopTariffs (String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having) {
+    public List<Tariff> getStopTariffs(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having) {
         List<Tariff> stopsList = new ArrayList<Tariff>();
 
         Cursor cursor = database.query(table, columns, selection, selectionArgs, groupBy, having, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Tariff tariff = new Tariff(cursor.getInt(0), cursor.getInt(1), cursor.getString(2), cursor.getInt(3), cursor.getString(4), cursor.getInt(5), cursor.getString(6), cursor.getInt(7), cursor.getInt(8), cursor.getInt(9));
+            Tariff tariff = new Tariff(
+                    cursor.getInt(0),
+                    cursor.getInt(1),
+                    cursor.getString(2),
+                    cursor.getInt(3),
+                    cursor.getString(4),
+                    cursor.getInt(5),
+                    cursor.getString(6),
+                    cursor.getInt(7),
+                    cursor.getInt(8),
+                    cursor.getInt(9),
+                    cursor.getInt(10),
+                    cursor.getInt(11),
+                    cursor.getInt(12),
+                    cursor.getInt(13),
+                    cursor.getInt(14),
+                    cursor.getInt(15),
+                    cursor.getInt(16),
+                    cursor.getInt(17),
+                    cursor.getInt(18),
+                    cursor.getInt(19),
+                    cursor.getInt(20),
+                    cursor.getInt(21),
+                    cursor.getInt(22),
+                    cursor.getInt(23),
+                    cursor.getInt(24),
+                    cursor.getInt(25),
+                    cursor.getInt(26),
+                    cursor.getInt(27),
+                    cursor.getInt(28),
+                    cursor.getInt(29),
+                    cursor.getInt(30),
+                    cursor.getInt(31),
+                    cursor.getInt(32)
+            );
             stopsList.add(tariff);
             cursor.moveToNext();
         }
@@ -410,9 +524,9 @@ public class DatabaseAccess  {
 
     // end_stop_aimag set
 
-    public List<Aimags> getEndStopAimags (String where, int startStopId) {
+    public List<Aimags> getEndStopAimags(String where, int startStopId) {
         List<Aimags> stopsList = new ArrayList<Aimags>();
-        Log.d("QUERY", "SELECT aimags.* FROM "+TARIFFTABLE+" JOIN "+AIMAGSTABLE+" ON aimags.id = tariff.end_stop_aimag_id GROUP BY "+END_STOP_AIMAG_ID+" HAVING "+ where +" = " + startStopId);
+        Log.d("QUERY", "SELECT aimags.* FROM " + TARIFFTABLE + " JOIN " + AIMAGSTABLE + " ON aimags.id = tariff.end_stop_aimag_id GROUP BY " + END_STOP_AIMAG_ID + " HAVING " + where + " = " + startStopId);
 //        Cursor cursor = database.rawQuery("SELECT aimags.* FROM " + TARIFFTABLE +
 //                " JOIN " + AIMAGSTABLE +
 //                " ON " + AIMAGSTABLE + ".id = " + TARIFFTABLE + ".end_stop_aimag_id " +
@@ -421,7 +535,7 @@ public class DatabaseAccess  {
 //                new String[]{ String.valueOf(startStopId)}
 //        );
 //       database.query(TARIFFTABLE, new String[] {"aimgas.*"}, where + " = ? AND " + ISCOUNTRY + " = 1 AND " + BVS + " < 4 ", )
-        Cursor cursor = database.query(TARIFFTABLE, new String[]  {"aimags.*"}, where + " = ? AND " + ISCOUNTRY + " = 1 AND " + BVS + " < 4 ", new String[] {String.valueOf(startStopId)}, END_STOP_AIMAG_ID, null, null);
+        Cursor cursor = database.query(TARIFFTABLE, new String[]{"aimags.*"}, where + " = ? AND " + ISCOUNTRY + " = 1 AND " + BVS + " < 4 ", new String[]{String.valueOf(startStopId)}, END_STOP_AIMAG_ID, null, null);
 
         cursor.moveToFirst();
         Log.d("Length", String.valueOf(cursor.getCount()));
@@ -440,19 +554,19 @@ public class DatabaseAccess  {
     }
 
     // end_stop_city set
-    public List<Aimags> getEndStopCity (String where, int startStopId) {
+    public List<Aimags> getEndStopCity(String where, int startStopId) {
         List<Aimags> stopsList = new ArrayList<Aimags>();
         Log.d("QUERY", "SELECT aimags.* FROM " + TARIFFTABLE +
                 " JOIN " + AIMAGSTABLE +
                 " ON " + AIMAGSTABLE + ".id = " + TARIFFTABLE + ".end_stop_aimag_id " +
-                "WHERE " + where + " = "+startStopId+" AND " + ISCOUNTRY + " = 0 AND " + BVS + " < 4 " +
+                "WHERE " + where + " = " + startStopId + " AND " + ISCOUNTRY + " = 0 AND " + BVS + " < 4 " +
                 "GROUP BY " + END_STOP_AIMAG_ID);
         Cursor cursor = database.rawQuery("SELECT aimags.* FROM " + TARIFFTABLE +
                         " JOIN " + AIMAGSTABLE +
                         " ON " + AIMAGSTABLE + ".id = " + TARIFFTABLE + ".end_stop_aimag_id " +
                         "WHERE " + where + " = ? AND " + ISCOUNTRY + " = 0 AND " + BVS + " < 4 " +
                         "GROUP BY " + END_STOP_AIMAG_ID,
-                new String[]{ String.valueOf(startStopId)}
+                new String[]{String.valueOf(startStopId)}
         );
         cursor.moveToFirst();
         Log.d("Length", String.valueOf(cursor.getCount()));
@@ -473,13 +587,13 @@ public class DatabaseAccess  {
     // end_stop_city set
     public List<Aimags> getEndStopForiegnCountry(String where, int startStopId) {
         List<Aimags> stopsList = new ArrayList<Aimags>();
-        Log.d("QUERY", "SELECT aimags.* FROM "+TARIFFTABLE+" JOIN "+AIMAGSTABLE+" ON aimags.id = tariff.end_stop_aimag_id GROUP BY "+END_STOP_AIMAG_ID+" HAVING "+ where +" = " + startStopId);
+        Log.d("QUERY", "SELECT aimags.* FROM " + TARIFFTABLE + " JOIN " + AIMAGSTABLE + " ON aimags.id = tariff.end_stop_aimag_id GROUP BY " + END_STOP_AIMAG_ID + " HAVING " + where + " = " + startStopId);
         Cursor cursor = database.rawQuery("SELECT aimags.* FROM " + TARIFFTABLE +
                         " JOIN " + AIMAGSTABLE +
                         " ON " + AIMAGSTABLE + ".id = " + TARIFFTABLE + ".end_stop_aimag_id " +
                         "WHERE " + where + " = ? AND " + ISCOUNTRY + " = 1 AND " + BVS + " >= 4 " +
                         "GROUP BY " + END_STOP_AIMAG_ID,
-                new String[]{ String.valueOf(startStopId)}
+                new String[]{String.valueOf(startStopId)}
         );
         cursor.moveToFirst();
         Log.d("Length", String.valueOf(cursor.getCount()));
@@ -497,26 +611,4 @@ public class DatabaseAccess  {
         return stopsList;
     }
 
-    // end_stop_city set
-    public List<Tariff> getTariffEndStops(int startId, boolean isUB) {
-        List<Tariff> stopsList = new ArrayList<Tariff>();
-        String query = "SELECT * FROM " + TARIFFTABLE;
-//        Log.d("QUERY", "SELECT * FROM "+TARIFFTABLE+" GROUP BY "+END_STOP_AIMAG_ID+" HAVING "+ where +" = " + startStopId);
-        Cursor cursor = database.rawQuery("SELECT * FROM " + TARIFFTABLE + " WHERE GROUP BY " + END_STOP_AIMAG_ID, new String[]{ String.valueOf(startId)} );
-
-        cursor.moveToFirst();
-        Log.d("Length", String.valueOf(cursor.getCount()));
-
-        while (!cursor.isAfterLast()) {
-            Tariff tariff = new Tariff();
-            Log.d("DATA", "" + cursor.getInt(0));
-            Log.d("DATA", "" + cursor.getString(1));
-            Log.d("DATA", "" + cursor.getInt(2));
-            Log.d("DATA", "" + cursor.getString(3) + "\n________________________________");
-            stopsList.add(tariff);
-            cursor.moveToNext();
-        }
-        cursor.close();
-        return stopsList;
-    }
 }

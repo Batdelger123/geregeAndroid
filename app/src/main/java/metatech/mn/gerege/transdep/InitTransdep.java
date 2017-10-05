@@ -208,23 +208,23 @@ public class InitTransdep extends Fragment implements StartStopDialog.StartStopD
                     data.requestAvailDispatchers(
                             new DispatcherRequest.DispatcherRequestListener() {
                                 @Override
-                                public void resultFromDispatcherRequest(List<Dispatcher> dispatcherList) {
+                                public void resultFromDispatcherRequest(List<Dispatcher> argDispatcherList) {
                                     progressDialog.dismiss();
-                                    List<Dispatcher> list = new ArrayList<Dispatcher>();
+                                    List<Dispatcher> dispatcherList = new ArrayList<Dispatcher>();
 
-                                    for (int i = 0; i < dispatcherList.size(); i++) {
-                                        Dispatcher dispatcher = dispatcherList.get(i);
+                                    for (int i = 0; i < argDispatcherList.size(); i++) {
+                                        Dispatcher dispatcher = argDispatcherList.get(i);
                                         if (dispatcher.getStartStopId() == endTariff.getStart_stop_id() && dispatcher.getEndStopId() == endTariff.getEnd_stop_id()) {
-                                            list.add(dispatcherList.get(i));
+                                            dispatcherList.add(argDispatcherList.get(i));
                                         }
                                     }
-                                    if (list.size() == 0) {
+                                    if (dispatcherList.size() == 0) {
                                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                         builder.setTitle(R.string.avail_dispatchers);
-                                        builder.setMessage("Хувьаар олдсонгүй");
+                                        builder.setMessage("Хуваарь олдсонгүй");
                                         builder.show();
                                     } else {
-                                        SearchDialog dialog = new SearchDialog(list, (countAdult + countChild));
+                                        SearchDialog dialog = new SearchDialog(endTariff, dispatcherList, countAdult, countChild);
                                         dialog.show(getFragmentManager(), "SearchDialog");
                                     }
                                 }

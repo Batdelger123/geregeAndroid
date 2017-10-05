@@ -64,11 +64,13 @@ public class DispatcherRequest extends Request<List<Dispatcher>> {
                             jsonDispatcher.optInt("DIRECTION_END_STOP_ID"),
                             jsonDispatcher.optInt("CAR_TYPE_ID"),
                             jsonDispatcher.optInt("SITCOUNT"),
+                            jsonDispatcher.optInt("COMPANY_ID"),
                             jsonDispatcher.optString("DIRECTION_NAME"),
                             jsonDispatcher.optString("DIRECTION_START_STOP_NAME"),
                             jsonDispatcher.optString("DIRECTION_END_STOP_NAME"),
                             jsonDispatcher.optString("CAR_TYPE_NAME"),
-                            jsonDispatcher.optString("LEAVE_DATE")
+                            jsonDispatcher.optString("LEAVE_DATE"),
+                            jsonDispatcher.optString("COMPANY_NAME")
                     ));
                 }
             }
