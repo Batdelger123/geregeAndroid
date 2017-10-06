@@ -221,7 +221,7 @@ public class InitTransdep extends Fragment implements StartStopDialog.StartStopD
                                     if (dispatcherList.size() == 0) {
                                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                                         builder.setTitle(R.string.avail_dispatchers);
-                                        builder.setMessage("Хуваарь олдсонгүй");
+                                        builder.setMessage(R.string.DirectionNotFound);
                                         builder.show();
                                     } else {
                                         SearchDialog dialog = new SearchDialog(endTariff, dispatcherList, countAdult, countChild);

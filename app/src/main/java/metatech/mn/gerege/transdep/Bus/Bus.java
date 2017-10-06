@@ -25,6 +25,7 @@ import java.util.List;
 import metatech.mn.gerege.R;
 import metatech.mn.gerege.database.Tariff;
 import metatech.mn.gerege.transdep.RecyclerView.data.Dispatcher;
+import metatech.mn.gerege.transdep.UserInput;
 
 public class Bus extends AppCompatActivity implements Seat.SeatListener, View.OnClickListener {
 
@@ -143,7 +144,23 @@ public class Bus extends AppCompatActivity implements Seat.SeatListener, View.On
     @Override
     public void onClick(View v) {
         if (floatingActionButton == v) {
-            Toast.makeText(Bus.this, "Clicked" + "", Toast.LENGTH_SHORT).show();
+            ArrayList<Integer> selectedSeatsNo = new ArrayList<>();
+            for (Seat seat : selectedSeats) {
+                selectedSeatsNo.add(Integer.parseInt(seat.getText()));
+            }
+
+            Intent intent = new Intent(Bus.this, UserInput.class);
+
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(UserInput.USER_INPUT_TARIFF, tariff);
+            bundle.putSerializable(UserInput.USER_INPUT_DISPATCHER, dispatcher);
+            bundle.putIntegerArrayList(UserInput.USER_INPUT_SELECTED_SEATS, selectedSeatsNo);
+            bundle.putInt(UserInput.USER_INPUT_COUNT_PASSENGER, countPassenger);
+            bundle.putInt(UserInput.USER_INPUT_COUNT_CHILD_PASSENGER, countChildPassenger);
+
+            intent.putExtra(UserInput.USER_INPUT_BUNDLE, bundle);
+
+            startActivity(intent);
         }
     }
 

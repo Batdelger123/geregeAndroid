@@ -8,6 +8,11 @@ import java.io.Serializable;
 
 public class Dispatcher implements Serializable{
 
+    public static int CAR_TYPE_ID_BIG = 1;
+    public static int CAR_TYPE_ID_MID = 2;
+    public static int CAR_TYPE_ID_LIT = 3;
+    public static int CAR_TYPE_ID_SIT = 4;
+
     private int id;
     private int directionId;
     private int startStopId;

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/et_user_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Регистр"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/et_user_name"
+        android:layout_marginTop="25dp" />
+
+    <EditText
+        android:id="@+id/et_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Овог нэр"
+        android:layout_marginTop="37dp"
+        android:layout_below="@+id/et_user_register"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/tv_seat"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+    <CheckBox
+        android:id="@+id/cb_child"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Хүүхэд"
+        android:layout_below="@+id/et_user_name"
+        android:layout_alignStart="@+id/et_user_name"
+        android:layout_marginTop="27dp" />
+
+    <CheckBox
+        android:id="@+id/cb_insurance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Амь даатгал"
+        android:layout_alignBaseline="@+id/cb_child"
+        android:layout_alignBottom="@+id/cb_child"
+        android:layout_alignEnd="@+id/et_user_name" />
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/cb_insurance"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000"
+        android:id="@+id/textView18" />
+</RelativeLayout>

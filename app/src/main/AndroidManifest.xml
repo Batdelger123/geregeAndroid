@@ -33,7 +33,8 @@
         <activity android:name=".transdep.Passenger" />
         <activity android:name=".server.DBUpdate" />
         <activity android:name=".transdep.DirectionStart" />
-        <activity android:name=".transdep.Bus.Bus"></activity>
+        <activity android:name=".transdep.Bus.Bus" />
+        <activity android:name=".transdep.UserInput"></activity>
     </application>
 
 </manifest>

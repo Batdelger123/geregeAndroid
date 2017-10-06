@@ -68,6 +68,7 @@
     <string name="seat_text_yellow">Хөгжлийн бэрхшээлтэй иргэдэд зориулагдсан суудал</string>
     <string name="seat_text_orange">Таны соонгосон суудал</string>
     <string name="avail_dispatchers">Боломжит хуваариуд</string>
+    <string name="DirectionNotFound">Хуваарь олдсонгүй</string>
 
 
 </resources>

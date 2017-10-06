@@ -69,10 +69,6 @@ public class PassengerDialog extends DialogFragment implements View.OnClickListe
 
         if ( (picker.getValue() + picker2.getValue()) > 4)
             picker2.setValue(4 - picker.getValue());
-
-//        picker2.setMaxValue(4 - picker.getValue());
-//        if ( (picker.getValue() + picker2.getValue()) > 4)
-//            picker2.setMaxValue(4 - picker.getValue());
     }
 
     @Override
